@@ -10,7 +10,7 @@ pub struct Arguments {
         long,
         help = "The Git commit hash from where to start taking the range of commits from till HEAD. The range is inclusive of HEAD and exclusive of the provided Git commit hash."
     )]
-    pub from_commit_hash: Option<String>,
+    pub from_commit_hash: String,
 
     #[structopt(
         long,
