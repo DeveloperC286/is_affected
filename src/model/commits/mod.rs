@@ -46,18 +46,17 @@ impl Commits {
                 }
             }
 
-            let mut commits: Vec<Commit> = get_commit_revwalker(repository, from_commit_hash)
-                .map(|oid| match oid {
-                    Ok(oid) => Commit::from_git(repository, oid),
-                    Err(error) => {
-                        error!("{:?}", error);
-                        exit(crate::ERROR_EXIT_CODE);
-                    }
-                })
-                .collect();
-
-            commits.reverse();
-            Commits { commits }
+            Commits {
+                commits: get_commit_revwalker(repository, from_commit_hash)
+                    .map(|oid| match oid {
+                        Ok(oid) => Commit::from_git(repository, oid),
+                        Err(error) => {
+                            error!("{:?}", error);
+                            exit(crate::ERROR_EXIT_CODE);
+                        }
+                    })
+                    .collect(),
+            }
         }
 
         fn get_repository() -> Repository {
