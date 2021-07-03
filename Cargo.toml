@@ -12,3 +12,8 @@ categories = ["command-line-utilities", "development-tools"]
 
 
 [dependencies]
+
+
+[profile.release]
+lto = 'fat'
+codegen-units = 1
