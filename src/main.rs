@@ -5,12 +5,14 @@ extern crate pretty_env_logger;
 use structopt::StructOpt;
 
 use crate::model::commits::Commits;
+use std::process::exit;
 
 mod cli;
 mod model;
 mod utilities;
 
 const ERROR_EXIT_CODE: i32 = 1;
+const SUCCESSFUL_EXIT_CODE: i32 = 0;
 
 fn main() {
     pretty_env_logger::init();
@@ -18,6 +20,11 @@ fn main() {
     let arguments = cli::Arguments::from_args();
     trace!("The command line arguments provided are {:?}.", arguments);
 
-    let _commits = Commits::from_git(arguments.from_commit_hash);
-    let _regexes = crate::utilities::regex::from(&arguments.effects);
+    let commits = Commits::from_git(arguments.from_commit_hash);
+    let regexes = crate::utilities::regex::from(&arguments.effects);
+
+    match commits.is_effected(&regexes) {
+        true => exit(SUCCESSFUL_EXIT_CODE),
+        false => exit(ERROR_EXIT_CODE),
+    }
 }

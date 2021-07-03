@@ -1,9 +1,11 @@
 use git2::{Oid, Repository, TreeWalkMode, TreeWalkResult};
+use regex::Regex;
 use std::collections::HashSet;
 use std::process::exit;
 
 pub struct Commit {
-    _affects: HashSet<String>,
+    oid: Oid,
+    affects: HashSet<String>,
 }
 
 impl Commit {
@@ -81,7 +83,8 @@ impl Commit {
 
         match repository.find_commit(oid) {
             Ok(commit) => Commit {
-                _affects: get_all_files_changed_in_commit(repository, &commit),
+                affects: get_all_files_changed_in_commit(repository, &commit),
+                oid: commit.id(),
             },
             Err(error) => {
                 error!("{:?}", error);
@@ -89,5 +92,21 @@ impl Commit {
                 exit(crate::ERROR_EXIT_CODE);
             }
         }
+    }
+
+    pub fn is_effected(&self, regexes: &[Regex]) -> bool {
+        for affected in self.affects.iter() {
+            for regex in regexes {
+                if regex.is_match(affected) {
+                    info!(
+                        "Commit {:?} affects the file {:?} which matches {:?}.",
+                        self.oid, affected, regex
+                    );
+                    return true;
+                }
+            }
+        }
+
+        false
     }
 }
