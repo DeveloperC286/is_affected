@@ -1,0 +1,14 @@
+[package]
+name = "is_effected"
+version = "0.0.1"
+description = "A utility to check if a particular file/directory has been effected within a range of commits. Useful for monorepos to check sub-repositories."
+authors = ["C <DeveloperC@protonmail.com>"]
+edition = "2018"
+license = "AGPL-3.0"
+repository = "https://gitlab.com/DeveloperC/is_effected/"
+readme = "README.md"
+keywords = ["monorepo", "commits", "effected", "repository", "git"]
+categories = ["command-line-utilities", "development-tools"]
+
+
+[dependencies]
