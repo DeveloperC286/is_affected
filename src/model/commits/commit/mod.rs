@@ -82,10 +82,14 @@ impl Commit {
         }
 
         match repository.find_commit(oid) {
-            Ok(commit) => Commit {
-                affects: get_all_files_changed_in_commit(repository, &commit),
-                oid: commit.id(),
-            },
+            Ok(commit) => {
+                let affects = get_all_files_changed_in_commit(repository, &commit);
+                let oid = commit.id();
+
+                debug!("Commit {:?} affects the files {:?}.", oid, affects);
+
+                Commit { oid, affects }
+            }
             Err(error) => {
                 error!("{:?}", error);
                 error!("Can not find commit with the hash '{}'.", oid);
