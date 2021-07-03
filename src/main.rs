@@ -8,6 +8,7 @@ use crate::model::commits::Commits;
 
 mod cli;
 mod model;
+mod utilities;
 
 const ERROR_EXIT_CODE: i32 = 1;
 
@@ -18,4 +19,5 @@ fn main() {
     trace!("The command line arguments provided are {:?}.", arguments);
 
     let _commits = Commits::from_git(arguments.from_commit_hash);
+    let _regexes = crate::utilities::regex::from(&arguments.effects);
 }

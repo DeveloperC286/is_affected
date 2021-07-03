@@ -22,6 +22,9 @@ structopt = "0.3.21"
 # Reading commits
 git2 = { version = "0.13.20", default-features = false, features=[] }
 
+# Creating regexes
+regex = "1.5.4"
+
 
 [profile.release]
 lto = 'fat'
