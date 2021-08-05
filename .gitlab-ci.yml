@@ -5,6 +5,7 @@ stages:
   - linting
   - compiling
   - unit-testing
+  - end-to-end-testing
   - releasing
   - crates-io-publishing
   - release-binary-compiling
@@ -98,6 +99,22 @@ unit-testing:
     - cargo test --verbose --workspace
     - cargo test --verbose --workspace --all-features
     - cargo test --verbose --workspace --no-default-features
+  rules:
+    - if: $CI_MERGE_REQUEST_ID
+    - if: $CI_COMMIT_BRANCH == "main"
+
+
+end-to-end-testing:
+  stage: end-to-end-testing
+  image: rust
+  before_script:
+    - apt update
+    - apt install python3-minimal python3-pip git -y
+    - cargo build
+    - cd end-to-end-tests/
+    - pip3 install -r requirements.txt
+  script:
+    - behave
   rules:
     - if: $CI_MERGE_REQUEST_ID
     - if: $CI_COMMIT_BRANCH == "main"
