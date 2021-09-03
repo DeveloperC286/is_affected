@@ -5,12 +5,10 @@ from behave import given
 from util import execute_command
 
 
-@given('the arguments are reset.')
 def reset_arguments(context):
     context.arguments = ""
 
 
-@given('the context and environment are reset.')
 def reset_context(context):
     context.behave_directory = os.getcwd()
     context.temporary_directory = tempfile.TemporaryDirectory()
@@ -36,8 +34,3 @@ def clone_remote_repository_and_checkout_commit(
     assert exit_code == 0
 
     os.chdir(context.behave_directory)
-
-
-@given('the GIT_DIR environment variable is set to the cloned repository.')
-def set_git_dir(context):
-    os.environ["GIT_DIR"] = str(context.temporary_directory.name + "/.git")
