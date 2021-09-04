@@ -1,3 +1,5 @@
+import re
+
 from behave import then
 
 from util import execute_is_effected
@@ -27,3 +29,30 @@ def then_could_not_find_commit_hash(context, commit_hash):
     assert context.stdout == ""
     assert int(context.exit_code) != 0
     assert context.stderr == could_not_find_commit_hash_error
+
+
+@then(
+    'their is a could not find shortened commit hash "{shortened_commit_hash}" error.')
+def then_could_not_find_shortened_commit_hash(context, shortened_commit_hash):
+    execute_is_effected(context)
+    could_not_find_shortened_commit_hash = " ERROR is_effected::model::commits > No actual commit hashes start with the provided short commit hash \"" + \
+        shortened_commit_hash + "\".\n"
+
+    assert context.stdout == ""
+    assert int(context.exit_code) != 0
+    assert context.stderr == could_not_find_shortened_commit_hash
+
+
+@then(
+    'their is a ambiguous shortened commit hash "{shortened_commit_hash}" error.')
+def then_could_not_find_shortened_commit_hash(context, shortened_commit_hash):
+    execute_is_effected(context)
+    ambiguous_shortened_commit_hash = re.compile(
+        '^ ERROR is_effected::model::commits > Ambiguous short commit hash, the commit hashes [[](' +
+        shortened_commit_hash +
+        '[a-f0-9]*(, )?)*[]] all start with the provided short commit hash "' +
+        shortened_commit_hash +
+        '".\n$')
+    assert context.stdout == ""
+    assert int(context.exit_code) != 0
+    assert ambiguous_shortened_commit_hash.match(context.stderr) is not None
