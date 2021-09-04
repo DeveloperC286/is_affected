@@ -1,4 +1,4 @@
-Feature: A Git commit hash can be provided as an argument to indicate where to start taking the range of commits from till HEAD to lint.
+Feature: A Git commit hash can be provided as an argument to indicate where to start taking the range of commits from till HEAD, to check if the resources are effected.
 
 
   Scenario Outline:
