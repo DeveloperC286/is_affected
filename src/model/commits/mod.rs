@@ -1,6 +1,5 @@
 use crate::model::commits::commit::Commit;
 use git2::{Oid, Repository, Revwalk};
-use regex::Regex;
 use std::process::exit;
 
 mod commit;
@@ -152,9 +151,11 @@ impl Commits {
         get_commits_till_head_from_oid(&repository, parse_to_oid(&repository, from_commit_hash))
     }
 
-    pub fn is_effected(&self, regexes: &[Regex]) -> bool {
+    pub fn is_effected(&self, effects: &[String]) -> bool {
+        let regexes = crate::utilities::regex::from(effects);
+
         for commit in self.commits.iter() {
-            if commit.is_effected(regexes) {
+            if commit.is_effected(&regexes) {
                 return true;
             }
         }

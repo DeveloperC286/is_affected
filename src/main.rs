@@ -21,9 +21,8 @@ fn main() {
     trace!("The command line arguments provided are {:?}.", arguments);
 
     let commits = Commits::from_git(arguments.from_commit_hash);
-    let regexes = crate::utilities::regex::from(&arguments.effects);
 
-    match commits.is_effected(&regexes) {
+    match commits.is_effected(&arguments.effects) {
         true => exit(SUCCESSFUL_EXIT_CODE),
         false => exit(ERROR_EXIT_CODE),
     }
