@@ -20,7 +20,13 @@ fn main() {
     let arguments = cli::Arguments::from_args();
     trace!("The command line arguments provided are {:?}.", arguments);
 
-    let commits = Commits::from_git(arguments.from_commit_hash);
+    let commits = if let Some(commit_hash) = arguments.from_commit_hash {
+        Commits::from_git_commit_hash(commit_hash)
+    } else if let Some(reference) = arguments.from_reference {
+        Commits::from_git_reference(reference)
+    } else {
+        unreachable!();
+    };
 
     match commits.is_effected(&arguments.effects) {
         true => exit(SUCCESSFUL_EXIT_CODE),

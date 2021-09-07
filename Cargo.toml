@@ -1,6 +1,6 @@
 [package]
 name = "is_effected"
-version = "0.1.0"
+version = "0.2.0"
 description = "A utility to check if a particular file/directory has been effected within a range of commits. Useful for monorepos to check sub-repositories."
 authors = ["C <DeveloperC@protonmail.com>"]
 edition = "2018"
