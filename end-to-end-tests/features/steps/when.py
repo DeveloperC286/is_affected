@@ -14,3 +14,8 @@ def set_from_reference(context, from_reference):
 @when('the argument --effects is provided as "{effects}".')
 def set_effects(context, effects):
     context.arguments += " --effects " + effects + " "
+
+
+@when('the --list flag is set.')
+def set_effects(context):
+    context.arguments += " --list "

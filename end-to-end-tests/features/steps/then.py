@@ -79,7 +79,7 @@ def then_missing_from_argument_error(context):
         "    <--from-commit-hash <from-commit-hash>|--from-reference <from-reference>>\n" + \
         "\n" + \
         "USAGE:\n" + \
-        "    is_effected [OPTIONS] <--from-commit-hash <from-commit-hash>|--from-reference <from-reference>>\n" + \
+        "    is_effected <--from-commit-hash <from-commit-hash>|--from-reference <from-reference>> <--effects <effects>...|--list>\n" + \
         "\n" + \
         "For more information try --help\n"
 
@@ -94,18 +94,25 @@ def then_conflicting_from_arguments_error(context):
     conflicting_from_arguments_error_1 = "error: The argument '--from-commit-hash <from-commit-hash>' cannot be used with one or more of the other specified arguments\n" \
         "\n" + \
         "USAGE:\n" + \
-        "    is_effected <--from-commit-hash <from-commit-hash>|--from-reference <from-reference>>\n" + \
+        "    is_effected <--from-commit-hash <from-commit-hash>|--from-reference <from-reference>> <--effects <effects>...|--list>\n" + \
         "\n" + \
         "For more information try --help\n"
     conflicting_from_arguments_error_2 = "error: The argument '--from-reference <from-reference>' cannot be used with one or more of the other specified arguments\n" \
         "\n" + \
         "USAGE:\n" + \
-        "    is_effected <--from-commit-hash <from-commit-hash>|--from-reference <from-reference>>\n" + \
+        "    is_effected <--from-commit-hash <from-commit-hash>|--from-reference <from-reference>> <--effects <effects>...|--list>\n" + \
         "\n" + \
         "For more information try --help\n"
-
-    print(context.stderr)
 
     assert context.stdout == ""
     assert int(context.exit_code) != 0
     assert context.stderr == conflicting_from_arguments_error_1 or context.stderr == conflicting_from_arguments_error_2
+
+
+@then('the effected resources listed are "{effected_resources}".')
+def then_could_not_find_reference(context, effected_resources):
+    execute_is_effected(context)
+
+    assert context.stderr == ""
+    assert int(context.exit_code) == 0
+    assert context.stdout == effected_resources.strip().strip('\"').replace("\\n", '\n')
