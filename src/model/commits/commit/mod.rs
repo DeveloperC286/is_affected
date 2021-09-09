@@ -113,4 +113,8 @@ impl Commit {
 
         false
     }
+
+    pub fn get_effected_resources(&self) -> &HashSet<String> {
+        &self.affects
+    }
 }

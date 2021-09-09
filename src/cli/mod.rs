@@ -4,7 +4,8 @@ use structopt::{clap::ArgGroup, StructOpt};
 #[structopt(
     name = "is_effected",
     about = "A utility to check if a particular file/directory has been effected within a range of commits. Useful for monorepos to check sub-repositories.",
-    group = ArgGroup::with_name("from").required(true)
+    group = ArgGroup::with_name("from").required(true),
+    group = ArgGroup::with_name("output").required(true),
 )]
 pub struct Arguments {
     #[structopt(
@@ -23,7 +24,15 @@ pub struct Arguments {
 
     #[structopt(
         long,
+        group = "output",
         help = "The regex for the resources to check if they are effected within the range of the commits."
     )]
     pub effects: Vec<String>,
+
+    #[structopt(
+        long,
+        group = "output",
+        help = "List all the the resources effected within the range of the commits."
+    )]
+    pub list: bool,
 }

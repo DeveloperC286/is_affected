@@ -28,8 +28,15 @@ fn main() {
         unreachable!();
     };
 
-    match commits.is_effected(&arguments.effects) {
-        true => exit(SUCCESSFUL_EXIT_CODE),
-        false => exit(ERROR_EXIT_CODE),
+    if arguments.list {
+        commits
+            .get_effected_resources()
+            .iter()
+            .for_each(|effected_resource| println!("{}", effected_resource));
+    } else {
+        match commits.is_effected(&arguments.effects) {
+            true => exit(SUCCESSFUL_EXIT_CODE),
+            false => exit(ERROR_EXIT_CODE),
+        }
     }
 }

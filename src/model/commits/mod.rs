@@ -189,4 +189,18 @@ impl Commits {
 
         false
     }
+
+    pub fn get_effected_resources(&self) -> Vec<&String> {
+        let mut effected_resources: Vec<&String> = self
+            .commits
+            .iter()
+            .map(|commit| commit.get_effected_resources())
+            .flatten()
+            .collect::<std::collections::HashSet<&String>>()
+            .into_iter()
+            .collect();
+
+        effected_resources.sort();
+        effected_resources
+    }
 }
