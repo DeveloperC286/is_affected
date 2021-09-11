@@ -17,7 +17,7 @@ A utility to check if a particular file/directory has been effected within a ran
 
 ## Usage
 Is Effected operates upon a range of Git commits in the repositories' history.
-To specify the range of commits you can use the `--from-commit-hash <commit-hash>` argument.
+To specify the range of commits you can use either the `--from-commit-hash <commit-hash>` or `--from-reference <reference>` arguments.
 The range of commits starts exclusively from the commit specified till inclusively of `HEAD`.
 
 Over the range of commits it's affected resources are checked if they match any of the regexes provided via the `--effects <resource>` argument.
