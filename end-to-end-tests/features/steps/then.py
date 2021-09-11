@@ -88,6 +88,22 @@ def then_missing_from_argument_error(context):
     assert context.stderr == missing_from_argument_error
 
 
+@then('their is a missing output argument error.')
+def then_missing_output_argument_error(context):
+    execute_is_effected(context)
+    missing_output_argument_error = "error: The following required arguments were not provided:\n" + \
+        "    <--effects <effects>...|--list>\n" + \
+        "\n" + \
+        "USAGE:\n" + \
+        "    is_effected <--from-commit-hash <from-commit-hash>|--from-reference <from-reference>> <--effects <effects>...|--list>\n" + \
+        "\n" + \
+        "For more information try --help\n"
+
+    assert context.stdout == ""
+    assert int(context.exit_code) != 0
+    assert context.stderr == missing_output_argument_error
+
+
 @then('their is a conflicting from arguments error.')
 def then_conflicting_from_arguments_error(context):
     execute_is_effected(context)
@@ -107,6 +123,27 @@ def then_conflicting_from_arguments_error(context):
     assert context.stdout == ""
     assert int(context.exit_code) != 0
     assert context.stderr == conflicting_from_arguments_error_1 or context.stderr == conflicting_from_arguments_error_2
+
+
+@then('their is a conflicting output arguments error.')
+def then_conflicting_output_arguments_error(context):
+    execute_is_effected(context)
+    conflicting_output_arguments_error_1 = "error: The argument '--effects <effects>...' cannot be used with one or more of the other specified arguments\n" \
+        "\n" + \
+        "USAGE:\n" + \
+        "    is_effected <--from-commit-hash <from-commit-hash>|--from-reference <from-reference>> <--effects <effects>...|--list>\n" + \
+        "\n" + \
+        "For more information try --help\n"
+    conflicting_output_arguments_error_2 = "error: The argument '--list' cannot be used with one or more of the other specified arguments\n" \
+        "\n" + \
+        "USAGE:\n" + \
+        "    is_effected <--from-commit-hash <from-commit-hash>|--from-reference <from-reference>> <--effects <effects>...|--list>\n" + \
+        "\n" + \
+        "For more information try --help\n"
+
+    assert context.stdout == ""
+    assert int(context.exit_code) != 0
+    assert context.stderr == conflicting_output_arguments_error_1 or context.stderr == conflicting_output_arguments_error_2
 
 
 @then('the effected resources listed are "{effected_resources}".')
