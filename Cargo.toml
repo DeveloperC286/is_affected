@@ -26,6 +26,10 @@ git2 = { version = "0.13.22", default-features = false, features=[] }
 regex = "1.5.4"
 
 
+[dev-dependencies]
+rstest = "0.11.0"
+
+
 [profile.release]
 lto = 'fat'
 codegen-units = 1
