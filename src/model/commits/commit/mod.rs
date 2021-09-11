@@ -118,3 +118,6 @@ impl Commit {
         &self.affects
     }
 }
+
+#[cfg(test)]
+mod tests;
