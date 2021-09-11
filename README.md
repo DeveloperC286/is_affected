@@ -19,10 +19,11 @@ A utility to check if a particular file/directory has been effected within a ran
 Is Effected operates upon a range of Git commits in the repositories' history.
 To specify the range of commits you can use either the `--from-commit-hash <commit-hash>` or `--from-reference <reference>` arguments.
 The range of commits starts exclusively from the commit specified till inclusively of `HEAD`.
+The from arguments can not be used together but one is required.
 
-Over the range of commits it's affected resources are checked if they match any of the regexes provided via the `--effects <resource>` argument.
-If any affected resources match then Is Effected return a zero status code otherwise it return a non-zero status code.
-
+Over the range of commits you can either specify all the effected resources to be listed out via the `--list` argument.
+Otherwise you can provide regexes via the `--effects <resource>` argument and if any of the effected resources within the range of commits match, then Is Effected return a zero status code otherwise it return a non-zero status code.
+Either of these output arguments are required and can not be used together.
 
 ### Usage - Git Environment Variables
 When looking for a repository the Git environment variables are respected.
