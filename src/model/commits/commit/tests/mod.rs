@@ -129,3 +129,42 @@ fn test_is_effected(#[case] effects: Vec<&str>, #[case] effected_resources: Vec<
     // When/Then
     assert!(commits.is_effected(&effects));
 }
+
+#[rstest]
+// Single file.
+#[case(vec!["src/lib.rs"], vec!["README.md", "LICENSE", "src/main.rs"])]
+// Single file within a directory.
+#[case(vec!["src/model/mod.rs"], vec!["src/cli/mod.rs", "src/main.rs"])]
+// Multiple files none match.
+#[case(vec!["src/lib.rs", "src/bin.rs"], vec!["README.md", ".gitignore", ".dockerignore", "Dockerfile", "src/main.rs"])]
+// Multiple files within a directory none match.
+#[case(vec!["src/cli/mod.rs", "src/model/mod.rs"], vec!["src/bin.rs", "src/lib.rs", "src/model/commits/mod.rs"])]
+// Single directory.
+#[case(vec!["docs/"], vec!["src/main.rs", "src/lib.rs", "example/README.md"])]
+// Single nested directory.
+#[case(vec!["src/model/"], vec!["src/main.rs", "src/lib.rs", "README.md"])]
+// Multiple directories none match.
+#[case(vec!["examples/", "docs/"], vec!["src/main.rs", "src/lib.rs", "src/model/mod.rs"])]
+// Multiple nested directories none match.
+#[case(vec!["examples/docs/", "src/model"], vec!["src/main.rs", "src/lib.rs", "example/README.md"])]
+fn test_is_not_effected(#[case] effects: Vec<&str>, #[case] effected_resources: Vec<&str>) {
+    // Given
+    let effects: Vec<String> = effects
+        .into_iter()
+        .map(|resource| resource.to_string())
+        .collect();
+    let commits = Commits {
+        commits: effected_resources
+            .into_iter()
+            .map(|resource| Commit {
+                oid: git2::Oid::zero(),
+                affects: IntoIterator::into_iter([resource])
+                    .map(|resource| resource.to_string())
+                    .collect(),
+            })
+            .collect(),
+    };
+
+    // When/Then
+    assert!(!commits.is_effected(&effects));
+}
