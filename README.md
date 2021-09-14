@@ -8,6 +8,10 @@ A utility to check if a particular file/directory has been effected within a ran
  * [Usage](#usage)
    + [Usage - Git Environment Variables](#usage-git-environment-variables)
    + [Usage - Logging](#usage-logging)
+ * [CICD Examples](#cicd-examples)
+  + [GitLab CI Rust Project Example](#gitlab-ci-rust-project-example)
+    + [Via Cargo](#via-cargo)
+    + [Via Binary Download](#via-binary-download)
  * [Downloading Binary](#downloading-binary)
  * [Compiling via Local Repository](#compiling-via-local-repository)
  * [Compiling via Cargo](#compiling-via-cargo)
@@ -35,6 +39,49 @@ When `$GIT_DIR` is not set, Is Effected searches for a repository beginning in t
 The crates `pretty_env_logger` and `log` are used to provide logging.
 The environment variable `RUST_LOG` can be used to set the logging level.
 See [https://crates.io/crates/pretty_env_logger](https://crates.io/crates/pretty_env_logger) for more detailed documentation.
+
+
+## CICD Examples
+### GitLab CI Rust Project Example
+#### Via Cargo
+See [Compiling via Cargo](#compiling-via-cargo) for more details about installing via Cargo.
+
+__Note - This example downloads the latest `0.*` version.__
+
+```
+example-stage:
+  stage: example-stage
+  image: rust
+  before_script:
+    - cargo install is_effected --version ^0
+  script:
+    # Check the monorepo is effected in the merge request or else skip the stage.
+    - /usr/local/cargo/bin/is_effected --from-reference "origin/$CI_MERGE_REQUEST_TARGET_BRANCH_NAME" --effect "monorepo/" || exit 0
+	- cd monorepo/
+	... rest of the stage
+  rules:
+    - if: $CI_MERGE_REQUEST_ID
+```
+
+
+#### Via Binary Download
+See [Downloading Binary](#downloading-binary) for more details about Binary downloads.
+
+__Note - This example downloads version `0.3.0`.__
+```
+example-stage:
+  stage: example-stage
+  image: rust
+  before_script:
+    - wget -q -O tmp.zip "https://gitlab.com/DeveloperC/is_effected/-/jobs/artifacts/0.3.0/download?job=release-binary-compiling-x86_64-linux-musl" && unzip tmp.zip && rm tmp.zip
+  script:
+    # Check the monorepo is effected in the merge request or else skip the stage.
+    - ./is_effected --from-reference "origin/$CI_MERGE_REQUEST_TARGET_BRANCH_NAME" --effect "monorepo/" || exit 0
+	- cd monorepo/
+	... rest of the stage
+  rules:
+    - if: $CI_MERGE_REQUEST_ID
+```
 
 
 ## Downloading Binary
