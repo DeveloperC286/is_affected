@@ -19,3 +19,13 @@ def set_effects(context, effects):
 @when('the --list flag is set.')
 def set_effects(context):
     context.arguments += " --list "
+
+
+@when('the --effects-current-directory flag is set.')
+def set_effects(context):
+    context.arguments += " --effects-current-directory "
+
+
+@when('the directory is changed to "{directory}".')
+def change_directory(context, directory):
+    context.temporary_directory.name += "/" + directory

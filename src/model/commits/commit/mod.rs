@@ -103,7 +103,7 @@ impl Commit {
             for regex in regexes {
                 if regex.is_match(affected) {
                     info!(
-                        "Commit {:?} affects the file {:?} which matches {:?}.",
+                        "Commit {:?} affects the file {:?} which matches \"{:?}\".",
                         self.oid, affected, regex
                     );
                     return true;

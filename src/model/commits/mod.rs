@@ -53,16 +53,6 @@ fn get_commits_till_head_from_oid(repository: &Repository, from_commit_hash: Oid
     }
 }
 
-fn get_repository() -> Repository {
-    match Repository::open_from_env() {
-        Ok(repository) => repository,
-        Err(error) => {
-            error!("{:?}", error);
-            exit(crate::ERROR_EXIT_CODE);
-        }
-    }
-}
-
 fn parse_to_oid(repository: &Repository, oid: String) -> Oid {
     match oid.len() {
         0 => {
@@ -166,16 +156,12 @@ fn get_references_oid(repository: &Repository, matching: &str) -> Oid {
 }
 
 impl Commits {
-    pub fn from_git_reference(reference: String) -> Self {
-        let repository = get_repository();
-
-        get_commits_till_head_from_oid(&repository, get_references_oid(&repository, &reference))
+    pub fn from_git_reference(repository: &Repository, reference: String) -> Self {
+        get_commits_till_head_from_oid(repository, get_references_oid(repository, &reference))
     }
 
-    pub fn from_git_commit_hash(commit_hash: String) -> Self {
-        let repository = get_repository();
-
-        get_commits_till_head_from_oid(&repository, parse_to_oid(&repository, commit_hash))
+    pub fn from_git_commit_hash(repository: &Repository, commit_hash: String) -> Self {
+        get_commits_till_head_from_oid(repository, parse_to_oid(repository, commit_hash))
     }
 
     pub fn is_effected(&self, effects: &[String]) -> bool {

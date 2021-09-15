@@ -1,5 +1,4 @@
 import re
-
 from behave import then
 
 from util import execute_is_effected
@@ -39,7 +38,7 @@ def then_could_not_find_commit_hash(context, commit_hash):
 def then_could_not_find_shortened_commit_hash(context, shortened_commit_hash):
     execute_is_effected(context)
     could_not_find_shortened_commit_hash = " ERROR is_effected::model::commits > No actual commit hashes start with the provided short commit hash \"" + \
-        shortened_commit_hash + "\".\n"
+                                           shortened_commit_hash + "\".\n"
 
     assert context.stdout == ""
     assert int(context.exit_code) != 0
@@ -76,12 +75,12 @@ def then_could_not_find_reference(context, reference):
 def then_missing_from_argument_error(context):
     execute_is_effected(context)
     missing_from_argument_error = "error: The following required arguments were not provided:\n" + \
-        "    <--from-commit-hash <from-commit-hash>|--from-reference <from-reference>>\n" + \
-        "\n" + \
-        "USAGE:\n" + \
-        "    is_effected <--from-commit-hash <from-commit-hash>|--from-reference <from-reference>> <--effects <effects>...|--list>\n" + \
-        "\n" + \
-        "For more information try --help\n"
+                                  "    <--from-commit-hash <from-commit-hash>|--from-reference <from-reference>>\n" + \
+                                  "\n" + \
+                                  "USAGE:\n" + \
+                                  "    is_effected <--from-commit-hash <from-commit-hash>|--from-reference <from-reference>> <--effects <effects>...|--effects-current-directory|--list>\n" + \
+                                  "\n" + \
+                                  "For more information try --help\n"
 
     assert context.stdout == ""
     assert int(context.exit_code) != 0
@@ -92,12 +91,12 @@ def then_missing_from_argument_error(context):
 def then_missing_output_argument_error(context):
     execute_is_effected(context)
     missing_output_argument_error = "error: The following required arguments were not provided:\n" + \
-        "    <--effects <effects>...|--list>\n" + \
-        "\n" + \
-        "USAGE:\n" + \
-        "    is_effected <--from-commit-hash <from-commit-hash>|--from-reference <from-reference>> <--effects <effects>...|--list>\n" + \
-        "\n" + \
-        "For more information try --help\n"
+                                    "    <--effects <effects>...|--effects-current-directory|--list>\n" + \
+                                    "\n" + \
+                                    "USAGE:\n" + \
+                                    "    is_effected <--from-commit-hash <from-commit-hash>|--from-reference <from-reference>> <--effects <effects>...|--effects-current-directory|--list>\n" + \
+                                    "\n" + \
+                                    "For more information try --help\n"
 
     assert context.stdout == ""
     assert int(context.exit_code) != 0
@@ -108,17 +107,17 @@ def then_missing_output_argument_error(context):
 def then_conflicting_from_arguments_error(context):
     execute_is_effected(context)
     conflicting_from_arguments_error_1 = "error: The argument '--from-commit-hash <from-commit-hash>' cannot be used with one or more of the other specified arguments\n" \
-        "\n" + \
-        "USAGE:\n" + \
-        "    is_effected <--from-commit-hash <from-commit-hash>|--from-reference <from-reference>> <--effects <effects>...|--list>\n" + \
-        "\n" + \
-        "For more information try --help\n"
+                                         "\n" + \
+                                         "USAGE:\n" + \
+                                         "    is_effected <--from-commit-hash <from-commit-hash>|--from-reference <from-reference>> <--effects <effects>...|--effects-current-directory|--list>\n" + \
+                                         "\n" + \
+                                         "For more information try --help\n"
     conflicting_from_arguments_error_2 = "error: The argument '--from-reference <from-reference>' cannot be used with one or more of the other specified arguments\n" \
-        "\n" + \
-        "USAGE:\n" + \
-        "    is_effected <--from-commit-hash <from-commit-hash>|--from-reference <from-reference>> <--effects <effects>...|--list>\n" + \
-        "\n" + \
-        "For more information try --help\n"
+                                         "\n" + \
+                                         "USAGE:\n" + \
+                                         "    is_effected <--from-commit-hash <from-commit-hash>|--from-reference <from-reference>> <--effects <effects>...|--effects-current-directory|--list>\n" + \
+                                         "\n" + \
+                                         "For more information try --help\n"
 
     assert context.stdout == ""
     assert int(context.exit_code) != 0
@@ -129,21 +128,27 @@ def then_conflicting_from_arguments_error(context):
 def then_conflicting_output_arguments_error(context):
     execute_is_effected(context)
     conflicting_output_arguments_error_1 = "error: The argument '--effects <effects>...' cannot be used with one or more of the other specified arguments\n" \
-        "\n" + \
-        "USAGE:\n" + \
-        "    is_effected <--from-commit-hash <from-commit-hash>|--from-reference <from-reference>> <--effects <effects>...|--list>\n" + \
-        "\n" + \
-        "For more information try --help\n"
+                                           "\n" + \
+                                           "USAGE:\n" + \
+                                           "    is_effected <--from-commit-hash <from-commit-hash>|--from-reference <from-reference>> <--effects <effects>...|--effects-current-directory|--list>\n" + \
+                                           "\n" + \
+                                           "For more information try --help\n"
     conflicting_output_arguments_error_2 = "error: The argument '--list' cannot be used with one or more of the other specified arguments\n" \
-        "\n" + \
-        "USAGE:\n" + \
-        "    is_effected <--from-commit-hash <from-commit-hash>|--from-reference <from-reference>> <--effects <effects>...|--list>\n" + \
-        "\n" + \
-        "For more information try --help\n"
+                                           "\n" + \
+                                           "USAGE:\n" + \
+                                           "    is_effected <--from-commit-hash <from-commit-hash>|--from-reference <from-reference>> <--effects <effects>...|--effects-current-directory|--list>\n" + \
+                                           "\n" + \
+                                           "For more information try --help\n"
+    conflicting_output_arguments_error_3 = "error: The argument '--effects-current-directory' cannot be used with one or more of the other specified arguments\n" \
+                                           "\n" + \
+                                           "USAGE:\n" + \
+                                           "    is_effected <--from-commit-hash <from-commit-hash>|--from-reference <from-reference>> <--effects <effects>...|--effects-current-directory|--list>\n" + \
+                                           "\n" + \
+                                           "For more information try --help\n"
 
     assert context.stdout == ""
     assert int(context.exit_code) != 0
-    assert context.stderr == conflicting_output_arguments_error_1 or context.stderr == conflicting_output_arguments_error_2
+    assert context.stderr == conflicting_output_arguments_error_1 or context.stderr == conflicting_output_arguments_error_2 or context.stderr == conflicting_output_arguments_error_3
 
 
 @then('the effected resources listed are "{effected_resources}".')

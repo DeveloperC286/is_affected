@@ -11,8 +11,8 @@ mod cli;
 mod model;
 mod utilities;
 
-const ERROR_EXIT_CODE: i32 = 1;
 const SUCCESSFUL_EXIT_CODE: i32 = 0;
+const ERROR_EXIT_CODE: i32 = 1;
 
 fn main() {
     pretty_env_logger::init();
@@ -20,23 +20,62 @@ fn main() {
     let arguments = cli::Arguments::from_args();
     trace!("The command line arguments provided are {:?}.", arguments);
 
-    let commits = if let Some(commit_hash) = arguments.from_commit_hash {
-        Commits::from_git_commit_hash(commit_hash)
-    } else if let Some(reference) = arguments.from_reference {
-        Commits::from_git_reference(reference)
-    } else {
-        unreachable!();
+    let repository = match crate::utilities::git::get_repository() {
+        Ok(repository) => repository,
+        Err(()) => {
+            exit(ERROR_EXIT_CODE);
+        }
     };
 
-    if arguments.list {
-        commits
-            .get_effected_resources()
-            .iter()
-            .for_each(|effected_resource| println!("{}", effected_resource));
-    } else {
-        match commits.is_effected(&arguments.effects) {
+    let commits = match (arguments.from_commit_hash, arguments.from_reference) {
+        (Some(commit_hash), None) => Commits::from_git_commit_hash(&repository, commit_hash),
+        (None, Some(reference)) => Commits::from_git_reference(&repository, reference),
+        (_, _) => {
+            error!("Unsupported configuration of from arguments.");
+            exit(ERROR_EXIT_CODE);
+        }
+    };
+
+    match (
+        arguments.list,
+        arguments.effects_current_directory,
+        arguments.effects.len(),
+    ) {
+        (true, false, 0) => {
+            commits
+                .get_effected_resources()
+                .iter()
+                .for_each(|effected_resource| println!("{}", effected_resource));
+        }
+        (false, true, 0) => {
+            match crate::utilities::git::get_current_directory_prefix(&repository) {
+                Ok(current_directory_prefix) => {
+                    trace!(
+                        "Checking if the current directory prefix {:?} is effected",
+                        current_directory_prefix
+                    );
+                    let effects: Vec<String> = vec![current_directory_prefix];
+                    match commits.is_effected(&effects) {
+                        true => exit(SUCCESSFUL_EXIT_CODE),
+                        false => exit(ERROR_EXIT_CODE),
+                    }
+                }
+                Err(()) => {
+                    exit(ERROR_EXIT_CODE);
+                }
+            }
+        }
+        (false, false, 0) => {
+            error!("Unsupported configuration of output arguments.");
+            exit(ERROR_EXIT_CODE);
+        }
+        (false, false, _) => match commits.is_effected(&arguments.effects) {
             true => exit(SUCCESSFUL_EXIT_CODE),
             false => exit(ERROR_EXIT_CODE),
+        },
+        (_, _, _) => {
+            error!("Unsupported configuration of output arguments.");
+            exit(ERROR_EXIT_CODE);
         }
     }
 }

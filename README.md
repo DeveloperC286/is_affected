@@ -23,11 +23,16 @@ A utility to check if a particular file/directory has been effected within a ran
 Is Effected operates upon a range of Git commits in the repositories' history.
 To specify the range of commits you can use either the `--from-commit-hash <commit-hash>` or `--from-reference <reference>` arguments.
 The range of commits starts exclusively from the commit specified till inclusively of `HEAD`.
-The from arguments can not be used together but one is required.
+One of these from arguments are required, but they conflict and can not be used together.
 
-Over the range of commits you can either specify all the effected resources to be listed out via the `--list` argument.
-Otherwise you can provide regexes via the `--effects <resource>` argument and if any of the effected resources within the range of commits match, then Is Effected return a zero status code otherwise it return a non-zero status code.
-Either of these output arguments are required and can not be used together.
+Over the range of commits you can perform two possible operations.
+Either you can list all the effected resources by supplying the `--list` flag.
+Or you can check that specific resources have been effected, through the `--effects-current-directory` flag or the `--effects <resources>` argument.
+With the `--effects-current-directory` flag the effected resources are checked if they are within the current directory or sub-directories.
+Using the `--effects <resource>` argument you can supply multiple regexes and it is checked if any of the effected resources match any.
+If either of the effects checks are met then Is Effected return a zero status code, otherwise it return a non-zero status code.
+One of the output arguments are required, but they conflict and can not be used together.
+
 
 ### Usage - Git Environment Variables
 When looking for a repository the Git environment variables are respected.
@@ -55,10 +60,10 @@ example-stage:
   before_script:
     - cargo install is_effected --version ^0
   script:
+    - cd monorepo/
     # Check the monorepo is effected in the merge request or else skip the stage.
-    - /usr/local/cargo/bin/is_effected --from-reference "origin/$CI_MERGE_REQUEST_TARGET_BRANCH_NAME" --effect "monorepo/" || exit 0
-	- cd monorepo/
-	... rest of the stage
+    - /usr/local/cargo/bin/is_effected --from-reference "origin/$CI_MERGE_REQUEST_TARGET_BRANCH_NAME" --effects-current-directory || exit 0
+    - ... rest of the stage
   rules:
     - if: $CI_MERGE_REQUEST_ID
 ```
@@ -67,18 +72,18 @@ example-stage:
 #### Via Binary Download
 See [Downloading Binary](#downloading-binary) for more details about Binary downloads.
 
-__Note - This example downloads version `0.3.0`.__
+__Note - This example downloads version `0.4.0`.__
 ```
 example-stage:
   stage: example-stage
   image: rust
   before_script:
-    - wget -q -O tmp.zip "https://gitlab.com/DeveloperC/is_effected/-/jobs/artifacts/0.3.0/download?job=release-binary-compiling-x86_64-linux-musl" && unzip tmp.zip && rm tmp.zip
+    - wget -q -O tmp.zip "https://gitlab.com/DeveloperC/is_effected/-/jobs/artifacts/0.4.0/download?job=release-binary-compiling-x86_64-linux-musl" && unzip tmp.zip && rm tmp.zip
   script:
+    - cd monorepo/
     # Check the monorepo is effected in the merge request or else skip the stage.
-    - ./is_effected --from-reference "origin/$CI_MERGE_REQUEST_TARGET_BRANCH_NAME" --effect "monorepo/" || exit 0
-	- cd monorepo/
-	... rest of the stage
+    - ./is_effected --from-reference "origin/$CI_MERGE_REQUEST_TARGET_BRANCH_NAME" --effects-current-directory || exit 0
+    - ... rest of the stage
   rules:
     - if: $CI_MERGE_REQUEST_ID
 ```
