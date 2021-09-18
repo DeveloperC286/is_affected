@@ -1,4 +1,4 @@
-Feature: The effected resouces over the specfied range of commits can be listed out.
+Feature: The effected resources over the specified range of commits can be listed out.
 
 
   Scenario Outline:

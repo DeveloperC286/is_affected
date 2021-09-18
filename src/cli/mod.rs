@@ -25,7 +25,7 @@ pub struct Arguments {
     #[structopt(
         long,
         group = "output",
-        help = "Check if any of the effected resouces within the range of the commits match any of these regexes. If any match then exit with a zero status code, otherwise exit with a non-zero status code."
+        help = "Check if any of the effected resources within the range of the commits match any of these regexes. If any match then exit with a zero status code, otherwise exit with a non-zero status code."
     )]
     pub effects: Vec<String>,
 
