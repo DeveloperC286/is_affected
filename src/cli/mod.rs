@@ -3,7 +3,7 @@ use structopt::{clap::ArgGroup, StructOpt};
 #[derive(Debug, StructOpt)]
 #[structopt(
     name = "is_effected",
-    about = "A utility to check if a particular file/directory has been effected within a range of commits. Useful for monorepos to check sub-repositories.",
+    about = "A utility for checking and listing the effected resources across a range of commits, useful when working with monorepos.",
     group = ArgGroup::with_name("from").required(true),
     group = ArgGroup::with_name("output").required(true),
 )]
@@ -39,7 +39,7 @@ pub struct Arguments {
     #[structopt(
         long,
         group = "output",
-        help = "List all the the resources effected within the range of the commits."
+        help = "List all the the effected resources within the range of the commits."
     )]
     pub list: bool,
 }
