@@ -79,10 +79,11 @@ example-stage:
   image: rust
   before_script:
     - wget -q -O tmp.zip "https://gitlab.com/DeveloperC/is_effected/-/jobs/artifacts/0.4.0/download?job=release-binary-compiling-x86_64-linux-musl" && unzip tmp.zip && rm tmp.zip
+    - is_effected="$(pwd)/is_effected"
   script:
     - cd monorepo/
     # Check the monorepo is effected in the merge request or else skip the stage.
-    - ./is_effected --from-reference "origin/$CI_MERGE_REQUEST_TARGET_BRANCH_NAME" --effects-current-directory || exit 0
+    - ${is_effected} --from-reference "origin/$CI_MERGE_REQUEST_TARGET_BRANCH_NAME" --effects-current-directory || exit 0
     - ... rest of the stage
   rules:
     - if: $CI_MERGE_REQUEST_ID
