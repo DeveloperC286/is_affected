@@ -18,30 +18,16 @@ impl Commit {
 
             match commit.tree() {
                 Ok(commit_tree) => {
-                    if commit.parent_count() == 0 {
-                        // Root Commit
-                        commit_tree
-                            .walk(TreeWalkMode::PostOrder, |directory, entry| {
-                                match entry.name() {
-                                    Some(name) => {
-                                        let file = format!("{}{}", directory, name);
-                                        files.insert(file);
-                                    }
-                                    None => {
-                                        warn!(
-                                            "Commit with the hash '{}' has not valid utf-8 files.",
-                                            commit.id()
-                                        )
-                                    }
-                                }
-                                TreeWalkResult::Ok
-                            })
-                            .unwrap();
-                    } else {
-                        // Some merge commits can have multiple parents.
-                        for parent in commit.parents() {
+                    match commit.parent(0) {
+                        Ok(parent) => {
+                            // Some merge commits can have multiple parents, just take the first.
                             match parent.tree() {
                                 Ok(parent_tree) => {
+                                    trace!(
+                                        "Using the commit '{}' as the parent for the commit '{}'.",
+                                        parent.id(),
+                                        commit.id()
+                                    );
                                     match repository.diff_tree_to_tree(
                                         Some(&parent_tree),
                                         Some(&commit_tree),
@@ -70,8 +56,33 @@ impl Commit {
                                 }
                             }
                         }
+                        Err(_) => {
+                            // Root Commit
+                            match commit_tree.walk(TreeWalkMode::PostOrder, |directory, entry| {
+                                match entry.name() {
+                                    Some(name) => {
+                                        let file = format!("{}{}", directory, name);
+                                        files.insert(file);
+                                    }
+                                    None => {
+                                        warn!(
+                                            "The root commit with the hash '{}' has non valid UTF-8 files.",
+                                            commit.id()
+                                        )
+                                    }
+                                }
+                                TreeWalkResult::Ok
+                            }) {
+                                Ok(_) => {}
+                                Err(error) => {
+                                    error!("{:?}", error);
+                                    exit(crate::ERROR_EXIT_CODE);
+                                }
+                            }
+                        }
                     }
                 }
+
                 Err(error) => {
                     error!("{:?}", error);
                     exit(crate::ERROR_EXIT_CODE);

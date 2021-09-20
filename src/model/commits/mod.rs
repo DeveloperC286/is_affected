@@ -12,6 +12,14 @@ fn get_commits_till_head_from_oid(repository: &Repository, from_commit_hash: Oid
     fn get_commit_revwalker(repository: &Repository, from_commit_hash: Oid) -> Revwalk {
         match repository.revwalk() {
             Ok(mut commits) => {
+                match commits.simplify_first_parent() {
+                    Ok(_) => {}
+                    Err(_) => {
+                        error!("Unable to create a simplfied Git revision walker.");
+                        exit(crate::ERROR_EXIT_CODE);
+                    }
+                }
+
                 match commits.push_head() {
                     Ok(_) => {}
                     Err(_) => {
