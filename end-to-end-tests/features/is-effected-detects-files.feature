@@ -3,6 +3,7 @@ Feature: Is Effected can detect if a file has been effect or not over a range of
 
   Scenario Outline:
     Given the repository "<repository>" is cloned and checked out at the commit "<checkout_commit>".
+    And the directory is changed to the cloned repository.
     When the argument --from-commit-hash is provided as "<from_commit_hash>".
     And the argument --effects is provided as "<effects>".
     Then is effected.
@@ -15,6 +16,7 @@ Feature: Is Effected can detect if a file has been effect or not over a range of
 
   Scenario Outline:
     Given the repository "<repository>" is cloned and checked out at the commit "<checkout_commit>".
+    And the directory is changed to the cloned repository.
     When the argument --from-commit-hash is provided as "<from_commit_hash>".
     And the argument --effects is provided as "<effects>".
     Then is not effected.

@@ -3,6 +3,7 @@ Feature: A Git commit hash can be provided as an argument to indicate where to s
 
   Scenario Outline:
     Given the repository "<repository>" is cloned and checked out at the commit "<checkout_commit>".
+    And the directory is changed to the cloned repository.
     When the argument --from-commit-hash is provided as "<from_commit_hash>".
     And the argument --effects is provided as "<effects>".
     Then is effected.
@@ -15,6 +16,7 @@ Feature: A Git commit hash can be provided as an argument to indicate where to s
 
   Scenario Outline:
     Given the repository "<repository>" is cloned and checked out at the commit "<checkout_commit>".
+    And the directory is changed to the cloned repository.
     When the argument --from-commit-hash is provided as "<from_commit_hash>".
     And the argument --effects is provided as "<effects>".
     Then is not effected.
@@ -27,6 +29,7 @@ Feature: A Git commit hash can be provided as an argument to indicate where to s
 
   Scenario Outline: When you provide a commit hash which does not exist a relevant error message is returned.
     Given the repository "<repository>" is cloned and checked out at the commit "<checkout_commit>".
+    And the directory is changed to the cloned repository.
     When the argument --from-commit-hash is provided as "<from_commit_hash>".
     And the --list flag is set.
     Then their is a could not find commit hash "<from_commit_hash>" error.

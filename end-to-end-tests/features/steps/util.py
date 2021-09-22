@@ -1,5 +1,3 @@
-import os
-
 from subprocess import Popen, PIPE
 
 
@@ -17,7 +15,5 @@ def execute_command(command):
 
 
 def execute_is_effected(context):
-    os.chdir(context.temporary_directory.name)
     (context.exit_code, context.stdout, context.stderr) = execute_command(
         context.is_effected_path + context.arguments)
-    os.chdir(context.behave_directory)

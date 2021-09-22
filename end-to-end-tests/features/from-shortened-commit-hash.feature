@@ -3,6 +3,7 @@ Feature: A shortened Git commit hash can be provided as an argument to indicate 
 
   Scenario Outline:
     Given the repository "<repository>" is cloned and checked out at the commit "<checkout_commit>".
+    And the directory is changed to the cloned repository.
     When the argument --from-commit-hash is provided as "<from_commit_hash>".
     And the argument --effects is provided as "<effects>".
     Then is effected.
@@ -19,6 +20,7 @@ Feature: A shortened Git commit hash can be provided as an argument to indicate 
 
   Scenario Outline:
     Given the repository "<repository>" is cloned and checked out at the commit "<checkout_commit>".
+    And the directory is changed to the cloned repository.
     When the argument --from-commit-hash is provided as "<from_commit_hash>".
     And the argument --effects is provided as "<effects>".
     Then is not effected.
@@ -35,6 +37,7 @@ Feature: A shortened Git commit hash can be provided as an argument to indicate 
 
   Scenario Outline: The short commit hash matches no commit hashes. So an error is printed and it exits unsuccessfully.
     Given the repository "<repository>" is cloned and checked out at the commit "<checkout_commit>".
+    And the directory is changed to the cloned repository.
     When the argument --from-commit-hash is provided as "<from_shortened_commit_hash>".
     And the argument --effects is provided as "<effects>".
     Then their is a could not find shortened commit hash "<from_shortened_commit_hash>" error.
@@ -47,6 +50,7 @@ Feature: A shortened Git commit hash can be provided as an argument to indicate 
 
   Scenario Outline: The short commit hash is ambiguous, multiple commit hashes match it. So an error is printed and it exits unsuccessfully.
     Given the repository "<repository>" is cloned and checked out at the commit "<checkout_commit>".
+    And the directory is changed to the cloned repository.
     When the argument --from-commit-hash is provided as "<from_shortened_commit_hash>".
     And the argument --effects is provided as "<effects>".
     Then their is a ambiguous shortened commit hash "<from_shortened_commit_hash>" error.

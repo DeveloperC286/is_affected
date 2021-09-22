@@ -3,6 +3,7 @@ Feature: The output arguments conflict with one another and can not be provided 
 
   Scenario Outline: You can not provide both effects and the list arguments.
     Given the repository "<repository>" is cloned and checked out at the commit "<checkout_commit>".
+    And the directory is changed to the cloned repository.
     When the argument --from-commit-hash is provided as "<from_commit_hash>".
     And the argument --effects is provided as "<effects>".
     And the --list flag is set.
@@ -16,6 +17,7 @@ Feature: The output arguments conflict with one another and can not be provided 
 
   Scenario Outline: You can not provide both effects and the effects current directory arguments.
     Given the repository "<repository>" is cloned and checked out at the commit "<checkout_commit>".
+    And the directory is changed to the cloned repository.
     When the argument --from-commit-hash is provided as "<from_commit_hash>".
     And the argument --effects is provided as "<effects>".
     And the --effects-current-directory flag is set.
@@ -29,6 +31,7 @@ Feature: The output arguments conflict with one another and can not be provided 
 
   Scenario Outline: You can not provide both the effects current directory and the list arguments.
     Given the repository "<repository>" is cloned and checked out at the commit "<checkout_commit>".
+    And the directory is changed to the cloned repository.
     When the argument --from-commit-hash is provided as "<from_commit_hash>".
     And the --effects-current-directory flag is set.
     And the --list flag is set.
@@ -42,6 +45,7 @@ Feature: The output arguments conflict with one another and can not be provided 
 
   Scenario Outline: You must provide one of the output arguments.
     Given the repository "<repository>" is cloned and checked out at the commit "<checkout_commit>".
+    And the directory is changed to the cloned repository.
     When the argument --from-commit-hash is provided as "<from_commit_hash>".
     Then their is a missing output argument error.
 

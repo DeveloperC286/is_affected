@@ -1,3 +1,5 @@
+import os
+
 from behave import when
 
 
@@ -27,5 +29,5 @@ def set_effects(context):
 
 
 @when('the directory is changed to "{directory}".')
-def change_directory(context, directory):
-    context.temporary_directory.name += "/" + directory
+def change_directory(_, directory):
+    os.chdir(directory)

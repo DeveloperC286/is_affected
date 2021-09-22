@@ -1,0 +1,31 @@
+Feature: Git environment variables are respected and used instead of using the current working directory.
+
+
+  Scenario Outline:
+    Given the repository "<repository>" is cloned and checked out at the commit "<checkout_commit>".
+    And the directory is changed to the cloned repository.
+    When the argument --from-commit-hash is provided as "<from_commit_hash>".
+    And the argument --effects is provided as "<effects>".
+    Then is effected.
+    Given the directory is changed to the behave directory.
+    And the GIT_DIR environment variable is set to the cloned repository.
+    Then is effected.
+
+
+    Examples:
+      | repository                               | checkout_commit                          | from_commit_hash                         | effects               |
+      | https://github.com/aristocratos/btop.git | 026a9311e9999f979e5a01e415e963bcee01ea36 | b552e75dc3870e465e1bac009fe3fef5a8745cf7 | "^src/btop_draw.cpp$" |
+
+
+  Scenario Outline:
+    Given the repository "<repository>" is cloned and checked out at the commit "<checkout_commit>".
+    When the argument --from-commit-hash is provided as "<from_commit_hash>".
+    And the argument --effects is provided as "<effects>".
+    Then is not effected.
+    Given the directory is changed to the behave directory.
+    And the GIT_DIR environment variable is set to the cloned repository.
+    Then is not effected.
+
+
+    Examples:
+      | repository | checkout_commit | from_commit_hash | effects |
