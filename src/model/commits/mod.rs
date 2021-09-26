@@ -4,7 +4,7 @@ use std::process::exit;
 
 mod commit;
 
-pub struct Commits {
+pub(crate) struct Commits {
     commits: Vec<Commit>,
 }
 
@@ -164,15 +164,15 @@ fn get_references_oid(repository: &Repository, matching: &str) -> Oid {
 }
 
 impl Commits {
-    pub fn from_git_reference(repository: &Repository, reference: String) -> Self {
+    pub(crate) fn from_git_reference(repository: &Repository, reference: String) -> Self {
         get_commits_till_head_from_oid(repository, get_references_oid(repository, &reference))
     }
 
-    pub fn from_git_commit_hash(repository: &Repository, commit_hash: String) -> Self {
+    pub(crate) fn from_git_commit_hash(repository: &Repository, commit_hash: String) -> Self {
         get_commits_till_head_from_oid(repository, parse_to_oid(repository, commit_hash))
     }
 
-    pub fn is_effected(&self, effects: &[String]) -> bool {
+    pub(crate) fn is_effected(&self, effects: &[String]) -> bool {
         let regexes = crate::utilities::regex::from(effects);
 
         for commit in self.commits.iter() {
@@ -184,7 +184,7 @@ impl Commits {
         false
     }
 
-    pub fn get_effected_resources(&self) -> Vec<&String> {
+    pub(crate) fn get_effected_resources(&self) -> Vec<&String> {
         let mut effected_resources: Vec<&String> = self
             .commits
             .iter()

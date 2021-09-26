@@ -1,2 +1,2 @@
-pub mod git;
-pub mod regex;
+pub(crate) mod git;
+pub(crate) mod regex;

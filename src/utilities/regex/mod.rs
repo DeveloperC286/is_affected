@@ -2,7 +2,7 @@ use regex::Regex;
 use std::process::exit;
 use std::str::FromStr;
 
-pub fn from(regexes: &[String]) -> Vec<Regex> {
+pub(crate) fn from(regexes: &[String]) -> Vec<Regex> {
     regexes
         .iter()
         .map(|regex| match Regex::from_str(regex) {

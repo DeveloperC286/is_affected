@@ -3,13 +3,13 @@ use regex::Regex;
 use std::collections::HashSet;
 use std::process::exit;
 
-pub struct Commit {
+pub(crate) struct Commit {
     oid: Oid,
     affects: HashSet<String>,
 }
 
 impl Commit {
-    pub fn from_git(repository: &Repository, oid: Oid) -> Self {
+    pub(crate) fn from_git(repository: &Repository, oid: Oid) -> Self {
         fn get_all_files_changed_in_commit(
             repository: &Repository,
             commit: &git2::Commit,
@@ -109,7 +109,7 @@ impl Commit {
         }
     }
 
-    pub fn is_effected(&self, regexes: &[Regex]) -> bool {
+    pub(crate) fn is_effected(&self, regexes: &[Regex]) -> bool {
         for affected in self.affects.iter() {
             for regex in regexes {
                 if regex.is_match(affected) {
@@ -125,7 +125,7 @@ impl Commit {
         false
     }
 
-    pub fn get_effected_resources(&self) -> &HashSet<String> {
+    pub(crate) fn get_effected_resources(&self) -> &HashSet<String> {
         &self.affects
     }
 }

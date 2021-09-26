@@ -1,6 +1,6 @@
 use git2::Repository;
 
-pub fn get_current_directory_prefix(repository: &Repository) -> Result<String, ()> {
+pub(crate) fn get_current_directory_prefix(repository: &Repository) -> Result<String, ()> {
     let mut repository_path = repository.path().to_path_buf();
     // Removing the ".git/" at the end.
     repository_path.pop();
@@ -32,7 +32,7 @@ pub fn get_current_directory_prefix(repository: &Repository) -> Result<String, (
     }
 }
 
-pub fn get_repository() -> Result<Repository, ()> {
+pub(crate) fn get_repository() -> Result<Repository, ()> {
     match Repository::open_from_env() {
         Ok(repository) => Ok(repository),
         Err(error) => {
