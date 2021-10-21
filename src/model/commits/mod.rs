@@ -172,16 +172,16 @@ impl Commits {
         get_commits_till_head_from_oid(repository, parse_to_oid(repository, commit_hash))
     }
 
-    pub(crate) fn is_effected(&self, effects: &[String]) -> bool {
-        let regexes = crate::utilities::regex::from(effects);
+    pub(crate) fn is_effected(&self, effects: &[String]) -> Result<bool, ()> {
+        let regexes = crate::utilities::regex::from(effects)?;
 
         for commit in self.commits.iter() {
             if commit.is_effected(&regexes) {
-                return true;
+                return Ok(true);
             }
         }
 
-        false
+        Ok(false)
     }
 
     pub(crate) fn get_effected_resources(&self) -> Vec<&String> {

@@ -56,8 +56,8 @@ fn main() {
                     );
                     let effects: Vec<String> = vec![current_directory_prefix];
                     match commits.is_effected(&effects) {
-                        true => exit(SUCCESSFUL_EXIT_CODE),
-                        false => exit(ERROR_EXIT_CODE),
+                        Ok(true) => exit(SUCCESSFUL_EXIT_CODE),
+                        _ => exit(ERROR_EXIT_CODE),
                     }
                 }
                 Err(()) => {
@@ -70,8 +70,8 @@ fn main() {
             exit(ERROR_EXIT_CODE);
         }
         (false, false, _) => match commits.is_effected(&arguments.effects) {
-            true => exit(SUCCESSFUL_EXIT_CODE),
-            false => exit(ERROR_EXIT_CODE),
+            Ok(true) => exit(SUCCESSFUL_EXIT_CODE),
+            _ => exit(ERROR_EXIT_CODE),
         },
         (_, _, _) => {
             error!("Unsupported configuration of output arguments.");

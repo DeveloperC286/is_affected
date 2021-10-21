@@ -127,7 +127,7 @@ fn test_is_effected(#[case] effects: Vec<&str>, #[case] effected_resources: Vec<
     };
 
     // When/Then
-    assert!(commits.is_effected(&effects));
+    assert!(commits.is_effected(&effects).unwrap());
 }
 
 #[rstest]
@@ -166,5 +166,5 @@ fn test_is_not_effected(#[case] effects: Vec<&str>, #[case] effected_resources: 
     };
 
     // When/Then
-    assert!(!commits.is_effected(&effects));
+    assert!(!commits.is_effected(&effects).unwrap());
 }
