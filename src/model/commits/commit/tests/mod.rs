@@ -1,7 +1,7 @@
+use rstest::rstest;
+
 use crate::model::commits::commit::Commit;
 use crate::model::commits::Commits;
-
-use rstest::rstest;
 
 #[test]
 fn test_get_affected_resources_is_sorted() {

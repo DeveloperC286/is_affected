@@ -2,10 +2,11 @@
 extern crate log;
 extern crate pretty_env_logger;
 
+use std::process::exit;
+
 use structopt::StructOpt;
 
 use crate::model::commits::Commits;
-use std::process::exit;
 
 mod cli;
 mod model;

@@ -1,5 +1,6 @@
-use regex::Regex;
 use std::str::FromStr;
+
+use regex::Regex;
 
 pub(crate) fn from(to_regexes: &[String]) -> Result<Vec<Regex>, ()> {
     let mut regexes = vec![];

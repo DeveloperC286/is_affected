@@ -1,7 +1,8 @@
-use git2::{Oid, Repository, TreeWalkMode, TreeWalkResult};
-use regex::Regex;
 use std::collections::HashSet;
 use std::process::exit;
+
+use git2::{Oid, Repository, TreeWalkMode, TreeWalkResult};
+use regex::Regex;
 
 pub(crate) struct Commit {
     oid: Oid,
