@@ -109,7 +109,7 @@ impl Commit {
         }
     }
 
-    pub(crate) fn is_effected(&self, regexes: &[Regex]) -> bool {
+    pub(crate) fn is_affected(&self, regexes: &[Regex]) -> bool {
         for affected in self.affects.iter() {
             for regex in regexes {
                 if regex.is_match(affected) {
@@ -125,7 +125,7 @@ impl Commit {
         false
     }
 
-    pub(crate) fn get_effected_resources(&self) -> &HashSet<String> {
+    pub(crate) fn get_affected_resources(&self) -> &HashSet<String> {
         &self.affects
     }
 }

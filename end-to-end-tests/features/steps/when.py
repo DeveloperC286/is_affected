@@ -13,19 +13,19 @@ def set_from_reference(context, from_reference):
     context.arguments += " --from-reference " + from_reference + " "
 
 
-@when('the argument --effects is provided as "{effects}".')
-def set_effects(context, effects):
-    context.arguments += " --effects " + effects + " "
+@when('the argument --affects is provided as "{affects}".')
+def set_affects(context, affects):
+    context.arguments += " --affects " + affects + " "
 
 
 @when('the --list flag is set.')
-def set_effects(context):
+def set_affects(context):
     context.arguments += " --list "
 
 
-@when('the --effects-current-directory flag is set.')
-def set_effects(context):
-    context.arguments += " --effects-current-directory "
+@when('the --affects-current-directory flag is set.')
+def set_affects(context):
+    context.arguments += " --affects-current-directory "
 
 
 @when('the directory is changed to "{directory}".')

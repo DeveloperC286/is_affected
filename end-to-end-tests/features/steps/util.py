@@ -14,6 +14,6 @@ def execute_command(command):
     return process.returncode, stdout.decode("utf-8"), stderr.decode("utf-8")
 
 
-def execute_is_effected(context):
+def execute_is_affected(context):
     (context.exit_code, context.stdout, context.stderr) = execute_command(
-        context.is_effected_path + context.arguments)
+        context.is_affected_path + context.arguments)

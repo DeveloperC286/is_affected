@@ -4,9 +4,9 @@ use crate::model::commits::Commits;
 use rstest::rstest;
 
 #[test]
-fn test_get_effected_resources_is_sorted() {
+fn test_get_affected_resources_is_sorted() {
     // Given
-    let expected_effected_resources: Vec<String> =
+    let expected_affected_resources: Vec<String> =
         IntoIterator::into_iter(["LICENSE", "README.md", "src/main.rs"])
             .map(|resource| resource.to_string())
             .collect();
@@ -28,19 +28,19 @@ fn test_get_effected_resources_is_sorted() {
     };
 
     // When
-    let effected_resources = commits.get_effected_resources();
+    let affected_resources = commits.get_affected_resources();
 
     // Then
     assert_eq!(
-        expected_effected_resources.iter().collect::<Vec<&String>>(),
-        effected_resources
+        expected_affected_resources.iter().collect::<Vec<&String>>(),
+        affected_resources
     );
 }
 
 #[test]
-fn test_get_effected_resources_is_unique() {
+fn test_get_affected_resources_is_unique() {
     // Given
-    let expected_effected_resources: Vec<String> =
+    let expected_affected_resources: Vec<String> =
         IntoIterator::into_iter(["LICENSE", "README.md", "src/main.rs"])
             .map(|resource| resource.to_string())
             .collect();
@@ -74,12 +74,12 @@ fn test_get_effected_resources_is_unique() {
     };
 
     // When
-    let effected_resources = commits.get_effected_resources();
+    let affected_resources = commits.get_affected_resources();
 
     // Then
     assert_eq!(
-        expected_effected_resources.iter().collect::<Vec<&String>>(),
-        effected_resources
+        expected_affected_resources.iter().collect::<Vec<&String>>(),
+        affected_resources
     );
 }
 
@@ -108,14 +108,14 @@ fn test_get_effected_resources_is_unique() {
 #[case(vec!["examples/hello-world/", "src/model"], vec!["src/main.rs", "src/model/mod.rs", "src/lib.rs", "example/hello-world/README.md"])]
 // Multiple nested directories some match.
 #[case(vec!["monorepo-1/src/", "monorepo-lib/src/"], vec!["monorepo-lib/src/lib.rs", "monorepo-2/src/bin.rs", "example/README.md"])]
-fn test_is_effected(#[case] effects: Vec<&str>, #[case] effected_resources: Vec<&str>) {
+fn test_is_affected(#[case] affects: Vec<&str>, #[case] affected_resources: Vec<&str>) {
     // Given
-    let effects: Vec<String> = effects
+    let affects: Vec<String> = affects
         .into_iter()
         .map(|resource| resource.to_string())
         .collect();
     let commits = Commits {
-        commits: effected_resources
+        commits: affected_resources
             .into_iter()
             .map(|resource| Commit {
                 oid: git2::Oid::zero(),
@@ -127,7 +127,7 @@ fn test_is_effected(#[case] effects: Vec<&str>, #[case] effected_resources: Vec<
     };
 
     // When/Then
-    assert!(commits.is_effected(&effects).unwrap());
+    assert!(commits.is_affected(&affects).unwrap());
 }
 
 #[rstest]
@@ -147,14 +147,14 @@ fn test_is_effected(#[case] effects: Vec<&str>, #[case] effected_resources: Vec<
 #[case(vec!["examples/", "docs/"], vec!["src/main.rs", "src/lib.rs", "src/model/mod.rs"])]
 // Multiple nested directories none match.
 #[case(vec!["examples/docs/", "src/model"], vec!["src/main.rs", "src/lib.rs", "example/README.md"])]
-fn test_is_not_effected(#[case] effects: Vec<&str>, #[case] effected_resources: Vec<&str>) {
+fn test_is_not_affected(#[case] affects: Vec<&str>, #[case] affected_resources: Vec<&str>) {
     // Given
-    let effects: Vec<String> = effects
+    let affects: Vec<String> = affects
         .into_iter()
         .map(|resource| resource.to_string())
         .collect();
     let commits = Commits {
-        commits: effected_resources
+        commits: affected_resources
             .into_iter()
             .map(|resource| Commit {
                 oid: git2::Oid::zero(),
@@ -166,5 +166,5 @@ fn test_is_not_effected(#[case] effects: Vec<&str>, #[case] effected_resources: 
     };
 
     // When/Then
-    assert!(!commits.is_effected(&effects).unwrap());
+    assert!(!commits.is_affected(&affects).unwrap());
 }

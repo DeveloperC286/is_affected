@@ -172,11 +172,11 @@ impl Commits {
         get_commits_till_head_from_oid(repository, parse_to_oid(repository, commit_hash))
     }
 
-    pub(crate) fn is_effected(&self, effects: &[String]) -> Result<bool, ()> {
-        let regexes = crate::utilities::regex::from(effects)?;
+    pub(crate) fn is_affected(&self, affects: &[String]) -> Result<bool, ()> {
+        let regexes = crate::utilities::regex::from(affects)?;
 
         for commit in self.commits.iter() {
-            if commit.is_effected(&regexes) {
+            if commit.is_affected(&regexes) {
                 return Ok(true);
             }
         }
@@ -184,17 +184,17 @@ impl Commits {
         Ok(false)
     }
 
-    pub(crate) fn get_effected_resources(&self) -> Vec<&String> {
-        let mut effected_resources: Vec<&String> = self
+    pub(crate) fn get_affected_resources(&self) -> Vec<&String> {
+        let mut affected_resources: Vec<&String> = self
             .commits
             .iter()
-            .map(|commit| commit.get_effected_resources())
+            .map(|commit| commit.get_affected_resources())
             .flatten()
             .collect::<std::collections::HashSet<&String>>()
             .into_iter()
             .collect();
 
-        effected_resources.sort();
-        effected_resources
+        affected_resources.sort();
+        affected_resources
     }
 }

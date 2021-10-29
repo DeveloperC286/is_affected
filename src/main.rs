@@ -38,24 +38,24 @@ fn main() {
 
     match (
         arguments.list,
-        arguments.effects_current_directory,
-        arguments.effects.len(),
+        arguments.affects_current_directory,
+        arguments.affects.len(),
     ) {
         (true, false, 0) => {
             commits
-                .get_effected_resources()
+                .get_affected_resources()
                 .iter()
-                .for_each(|effected_resource| println!("{}", effected_resource));
+                .for_each(|affected_resource| println!("{}", affected_resource));
         }
         (false, true, 0) => {
             match crate::utilities::git::get_current_directory_prefix(&repository) {
                 Ok(current_directory_prefix) => {
                     trace!(
-                        "Checking if the current directory prefix {:?} is effected",
+                        "Checking if the current directory prefix {:?} is affected",
                         current_directory_prefix
                     );
-                    let effects: Vec<String> = vec![current_directory_prefix];
-                    match commits.is_effected(&effects) {
+                    let affects: Vec<String> = vec![current_directory_prefix];
+                    match commits.is_affected(&affects) {
                         Ok(true) => exit(SUCCESSFUL_EXIT_CODE),
                         _ => exit(ERROR_EXIT_CODE),
                     }
@@ -69,7 +69,7 @@ fn main() {
             error!("Unsupported configuration of output arguments.");
             exit(ERROR_EXIT_CODE);
         }
-        (false, false, _) => match commits.is_effected(&arguments.effects) {
+        (false, false, _) => match commits.is_affected(&arguments.affects) {
             Ok(true) => exit(SUCCESSFUL_EXIT_CODE),
             _ => exit(ERROR_EXIT_CODE),
         },

@@ -1,16 +1,16 @@
-Feature: A Git reference can be provided as an argument to indicate where to start taking the range of commits from till HEAD, to check if the resources are effected.
+Feature: A Git reference can be provided as an argument to indicate where to start taking the range of commits from till HEAD, to check if the resources are affected.
 
 
   Scenario Outline:
     Given the repository "<repository>" is cloned and checked out at the commit "<checkout_commit>".
     And the directory is changed to the cloned repository.
     When the argument --from-reference is provided as "<from_reference>".
-    And the argument --effects is provided as "<effects>".
-    Then is effected.
+    And the argument --affects is provided as "<affects>".
+    Then is affected.
 
 
     Examples:
-      | repository                              | checkout_commit                          | from_reference | effects                             |
+      | repository                              | checkout_commit                          | from_reference | affects                             |
       | https://github.com/xfangfang/Macast.git | f105522c9290dd3202249ff8c8778bebcd3f361b | v0.5           | .github/workflows/build-macast.yaml |
 
 
@@ -18,12 +18,12 @@ Feature: A Git reference can be provided as an argument to indicate where to sta
     Given the repository "<repository>" is cloned and checked out at the commit "<checkout_commit>".
     And the directory is changed to the cloned repository.
     When the argument --from-reference is provided as "<from_reference>".
-    And the argument --effects is provided as "<effects>".
-    Then is not effected.
+    And the argument --affects is provided as "<affects>".
+    Then is not affected.
 
 
     Examples:
-      | repository                               | checkout_commit                          | from_reference | effects        |
+      | repository                               | checkout_commit                          | from_reference | affects        |
       | https://gitlab.com/wwn-mode/WWN-Mode.git | 3839e0b2a02687a23aae4fa49d5ec0eea1762f17 | 0.0.2Update    | Units/BUM0.ini |
 
 
@@ -31,20 +31,20 @@ Feature: A Git reference can be provided as an argument to indicate where to sta
     Given the repository "<repository>" is cloned and checked out at the commit "<checkout_commit>".
     And the directory is changed to the cloned repository.
     When the argument --from-reference is provided as "<from_full_reference>".
-    And the argument --effects is provided as "<effects>".
-    Then is effected.
+    And the argument --affects is provided as "<affects>".
+    Then is affected.
     Given the arguments are reset.
     When the argument --from-reference is provided as "<from_partial_reference>".
-    And the argument --effects is provided as "<effects>".
-    Then is effected.
+    And the argument --affects is provided as "<affects>".
+    Then is affected.
     Given the arguments are reset.
     When the argument --from-reference is provided as "<from_short_reference>".
-    And the argument --effects is provided as "<effects>".
-    Then is effected.
+    And the argument --affects is provided as "<affects>".
+    Then is affected.
 
 
     Examples:
-      | repository                              | checkout_commit                          | from_full_reference | from_partial_reference | from_short_reference | effects                  |
+      | repository                              | checkout_commit                          | from_full_reference | from_partial_reference | from_short_reference | affects                  |
       | https://github.com/countercept/chainsaw | 9503898cdd1f594c4f19d56ef9ccd6aed60a2408 | refs/tags/v1.0.0    | tags/v1.0.0            | v1.0.0               | .github/workflows/ci.yml |
 
 
