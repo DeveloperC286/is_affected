@@ -1,0 +1,26 @@
+[package]
+name = "is_affected_lib"
+version = "0.1.0"
+description = "A utility for checking and listing the affected resources across a range of commits, useful when working with monorepos."
+authors = ["C <DeveloperC@protonmail.com>"]
+edition = "2018"
+license = "AGPL-3.0"
+repository = "https://gitlab.com/DeveloperC/is_affected/"
+readme = "README.md"
+keywords = ["monorepo", "commits", "affected", "repository", "git"]
+categories = ["command-line-utilities", "development-tools"]
+
+
+[dependencies]
+# Logging
+log = "0.4.14"
+
+# Reading commits
+git2 = { version = "0.13.23", default-features = false, features=[] }
+
+# Creating regexes
+regex = "1.5.4"
+
+
+[dev-dependencies]
+rstest = "0.11.0"

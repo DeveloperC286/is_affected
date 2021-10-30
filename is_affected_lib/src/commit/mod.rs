@@ -1,20 +1,19 @@
 use std::collections::HashSet;
-use std::process::exit;
 
 use git2::{Oid, Repository, TreeWalkMode, TreeWalkResult};
 use regex::Regex;
 
-pub(crate) struct Commit {
+pub(super) struct Commit {
     oid: Oid,
     affects: HashSet<String>,
 }
 
 impl Commit {
-    pub(crate) fn from_git(repository: &Repository, oid: Oid) -> Self {
+    pub(super) fn new(repository: &Repository, oid: Oid) -> Result<Commit, git2::Error> {
         fn get_all_files_changed_in_commit(
             repository: &Repository,
             commit: &git2::Commit,
-        ) -> HashSet<String> {
+        ) -> Result<HashSet<String>, git2::Error> {
             let mut files = HashSet::new();
 
             match commit.tree() {
@@ -47,13 +46,13 @@ impl Commit {
                                         }
                                         Err(error) => {
                                             error!("{:?}", error);
-                                            exit(crate::ERROR_EXIT_CODE);
+                                            return Err(error);
                                         }
                                     }
                                 }
                                 Err(error) => {
                                     error!("{:?}", error);
-                                    exit(crate::ERROR_EXIT_CODE);
+                                    return Err(error);
                                 }
                             }
                         }
@@ -77,7 +76,7 @@ impl Commit {
                                 Ok(_) => {}
                                 Err(error) => {
                                     error!("{:?}", error);
-                                    exit(crate::ERROR_EXIT_CODE);
+                    return Err(error);
                                 }
                             }
                         }
@@ -86,31 +85,30 @@ impl Commit {
 
                 Err(error) => {
                     error!("{:?}", error);
-                    exit(crate::ERROR_EXIT_CODE);
+                    return Err(error);
                 }
             }
 
-            files
+            Ok(files)
         }
 
         match repository.find_commit(oid) {
             Ok(commit) => {
-                let affects = get_all_files_changed_in_commit(repository, &commit);
+                let affects = get_all_files_changed_in_commit(repository, &commit)?;
                 let oid = commit.id();
 
                 debug!("Commit {:?} affects the files {:?}.", oid, affects);
 
-                Commit { oid, affects }
+                Ok(Commit { oid, affects })
             }
             Err(error) => {
-                error!("{:?}", error);
                 error!("Can not find commit with the hash '{}'.", oid);
-                exit(crate::ERROR_EXIT_CODE);
+                Err(error)
             }
         }
     }
 
-    pub(crate) fn is_affected(&self, regexes: &[Regex]) -> bool {
+    pub(super) fn is_affected(&self, regexes: &[Regex]) -> bool {
         for affected in self.affects.iter() {
             for regex in regexes {
                 if regex.is_match(affected) {
@@ -126,7 +124,7 @@ impl Commit {
         false
     }
 
-    pub(crate) fn get_affected_resources(&self) -> &HashSet<String> {
+    pub(super) fn get_affected_resources(&self) -> &HashSet<String> {
         &self.affects
     }
 }

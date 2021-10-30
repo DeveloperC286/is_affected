@@ -1,7 +1,9 @@
+use std::collections::VecDeque;
+
 use rstest::rstest;
 
-use crate::model::commits::commit::Commit;
-use crate::model::commits::Commits;
+use crate::commit::Commit;
+use crate::Commits;
 
 #[test]
 fn test_get_affected_resources_is_sorted() {
@@ -11,7 +13,7 @@ fn test_get_affected_resources_is_sorted() {
             .map(|resource| resource.to_string())
             .collect();
     let commits = Commits {
-        commits: vec![
+        commits: VecDeque::from(vec![
             Commit {
                 oid: git2::Oid::zero(),
                 affects: IntoIterator::into_iter(["README.md"])
@@ -24,17 +26,14 @@ fn test_get_affected_resources_is_sorted() {
                     .map(|resource| resource.to_string())
                     .collect(),
             },
-        ],
+        ]),
     };
 
     // When
     let affected_resources = commits.get_affected_resources();
 
     // Then
-    assert_eq!(
-        expected_affected_resources.iter().collect::<Vec<&String>>(),
-        affected_resources
-    );
+    assert_eq!(expected_affected_resources, affected_resources);
 }
 
 #[test]
@@ -45,7 +44,7 @@ fn test_get_affected_resources_is_unique() {
             .map(|resource| resource.to_string())
             .collect();
     let commits = Commits {
-        commits: vec![
+        commits: VecDeque::from(vec![
             Commit {
                 oid: git2::Oid::zero(),
                 affects: IntoIterator::into_iter(["README.md"])
@@ -70,17 +69,14 @@ fn test_get_affected_resources_is_unique() {
                     .map(|resource| resource.to_string())
                     .collect(),
             },
-        ],
+        ]),
     };
 
     // When
     let affected_resources = commits.get_affected_resources();
 
     // Then
-    assert_eq!(
-        expected_affected_resources.iter().collect::<Vec<&String>>(),
-        affected_resources
-    );
+    assert_eq!(expected_affected_resources, affected_resources);
 }
 
 #[rstest]

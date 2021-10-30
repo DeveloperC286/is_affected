@@ -15,7 +15,7 @@ def reset_context(context):
     context.temporary_directory = tempfile.TemporaryDirectory()
 
     context.is_affected_path = context.behave_directory + \
-        "/../target/debug/is_affected"
+        "/../../target/debug/is_affected"
     reset_arguments(context)
 
     if "GIT_DIR" in os.environ:

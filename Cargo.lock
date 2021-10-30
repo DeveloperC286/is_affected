@@ -146,11 +146,21 @@ name = "is_affected"
 version = "0.4.1"
 dependencies = [
  "git2",
+ "is_affected_lib",
  "log",
  "pretty_env_logger",
  "regex",
- "rstest",
  "structopt",
+]
+
+[[package]]
+name = "is_affected_lib"
+version = "0.1.0"
+dependencies = [
+ "git2",
+ "log",
+ "regex",
+ "rstest",
 ]
 
 [[package]]
