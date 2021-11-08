@@ -143,7 +143,7 @@ dependencies = [
 
 [[package]]
 name = "is_affected"
-version = "0.4.1"
+version = "0.4.2"
 dependencies = [
  "git2",
  "is_affected_lib",
