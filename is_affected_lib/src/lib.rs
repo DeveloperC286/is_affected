@@ -1,3 +1,6 @@
+#![doc = include_str!("../README.md")]
+#![deny(missing_docs)]
+
 #[macro_use]
 extern crate log;
 
@@ -30,7 +33,7 @@ impl Commits {
     /// use is_affected_lib::Commits;
     ///
     /// let repository = Repository::open_from_env().unwrap();
-    /// let commits = Commits::from_reference(&repository, "v1.0.0");
+    /// let commits = Commits::from_reference(&repository, "0.4.1").unwrap();
     /// ```
     ///
     /// E.g. full name.
@@ -40,7 +43,7 @@ impl Commits {
     /// use is_affected_lib::Commits;
     ///
     /// let repository = Repository::open_from_env().unwrap();
-    /// let commits = Commits::from_reference(&repository, "refs/tags/v1.0.0");
+    /// let commits = Commits::from_reference(&repository, "refs/tags/0.4.1").unwrap();
     /// ```
     pub fn from_reference<T: AsRef<str>>(
         repository: &Repository,
@@ -61,7 +64,7 @@ impl Commits {
     /// use is_affected_lib::Commits;
     ///
     /// let repository = Repository::open_from_env().unwrap();
-    /// let commits = Commits::from_commit_hash(&repository, "d58f1598");
+    /// let commits = Commits::from_commit_hash(&repository, "a2f8159").unwrap();
     /// ```
     ///
     /// E.g. full commit hash.
@@ -71,7 +74,7 @@ impl Commits {
     /// use is_affected_lib::Commits;
     ///
     /// let repository = Repository::open_from_env().unwrap();
-    /// let commits = Commits::from_commit_hash(&repository, "d58f159849a1551dbe7f67019208c2e0de08da80");
+    /// let commits = Commits::from_commit_hash(&repository, "a2f81595220779ce14dbfdb34f023677f0938974").unwrap();
     /// ```
     pub fn from_commit_hash<T: AsRef<str>>(
         repository: &Repository,
@@ -81,6 +84,17 @@ impl Commits {
         get_commits_till_head_from_oid(repository, commit_oid)
     }
 
+    /// Returns true if any of the provided affects that are compiled into regexes match any of the
+    /// affected resources by the range of commits.
+    ///
+    /// ```
+    /// use git2::Repository;
+    /// use is_affected_lib::Commits;
+    ///
+    /// let repository = Repository::open_from_env().unwrap();
+    /// let commits = Commits::from_reference(&repository, "0.4.1").unwrap();
+    /// let affected = commits.is_affected(&["^src/*", "^README.md$"]);
+    /// ```
     pub fn is_affected<T: AsRef<str>>(&self, affects: &[T]) -> Result<bool, regex::Error> {
         fn to_regexes<T: AsRef<str>>(to_regexes: &[T]) -> Result<Vec<Regex>, regex::Error> {
             let mut regexes = vec![];
@@ -110,6 +124,16 @@ impl Commits {
         Ok(false)
     }
 
+    /// Returns a sorted list of all the affected resources by the range of commits.
+    ///
+    /// ```
+    /// use git2::Repository;
+    /// use is_affected_lib::Commits;
+    ///
+    /// let repository = Repository::open_from_env().unwrap();
+    /// let commits = Commits::from_reference(&repository, "0.4.1").unwrap();
+    /// let affected_resources = commits.get_affected_resources();
+    /// ```
     pub fn get_affected_resources(&self) -> Vec<String> {
         let mut affected_resources: Vec<String> = self
             .commits
