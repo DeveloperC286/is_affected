@@ -9,7 +9,7 @@ pub(super) struct Commit {
 }
 
 impl Commit {
-    pub(super) fn new(repository: &Repository, oid: Oid) -> Result<Commit, git2::Error> {
+    pub(super) fn from_git(repository: &Repository, oid: Oid) -> Result<Commit, git2::Error> {
         fn get_all_files_changed_in_commit(
             repository: &Repository,
             commit: &git2::Commit,
