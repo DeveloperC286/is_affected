@@ -1,7 +1,6 @@
-use std::collections::HashSet;
-
 use git2::{Oid, Repository, TreeWalkMode, TreeWalkResult};
 use regex::Regex;
+use std::collections::HashSet;
 
 pub(super) struct Commit {
     oid: Oid,
@@ -76,7 +75,7 @@ impl Commit {
                                 Ok(_) => {}
                                 Err(error) => {
                                     error!("{:?}", error);
-                    return Err(error);
+                                    return Err(error);
                                 }
                             }
                         }

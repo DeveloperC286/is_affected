@@ -2,12 +2,10 @@
 extern crate log;
 extern crate pretty_env_logger;
 
-use std::process::exit;
-
 use git2::Repository;
-use structopt::StructOpt;
-
 use is_affected_lib::Commits;
+use std::process::exit;
+use structopt::StructOpt;
 
 mod cli;
 
@@ -31,8 +29,8 @@ fn main() {
                 }
                 (_, _) => {
                     unreachable!(
-                "Invalid combination of from arguments, should have been caught by structopt."
-            );
+                        "Invalid combination of from arguments, should have been caught by structopt."
+                    );
                 }
             };
 
