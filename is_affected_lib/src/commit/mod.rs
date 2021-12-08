@@ -1,6 +1,7 @@
+use std::collections::HashSet;
+
 use git2::{Oid, Repository, TreeWalkMode, TreeWalkResult};
 use regex::Regex;
-use std::collections::HashSet;
 
 pub(super) struct Commit {
     oid: Oid,

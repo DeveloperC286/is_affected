@@ -4,10 +4,11 @@
 #[macro_use]
 extern crate log;
 
-use git2::{Oid, Repository, Revwalk};
-use regex::Regex;
 use std::collections::VecDeque;
 use std::str::FromStr;
+
+use git2::{Oid, Repository, Revwalk};
+use regex::Regex;
 
 use crate::commit::Commit;
 

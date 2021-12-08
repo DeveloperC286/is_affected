@@ -1,5 +1,6 @@
-use rstest::rstest;
 use std::collections::VecDeque;
+
+use rstest::rstest;
 
 use crate::commit::Commit;
 use crate::Commits;
