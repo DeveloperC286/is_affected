@@ -12,15 +12,16 @@ categories = ["command-line-utilities", "development-tools"]
 
 
 [dependencies]
-# Logging
+# For logging.
 log = "0.4.14"
 
-# Reading commits
-git2 = { version = "0.13.23", default-features = false, features=[] }
+# For reading Git commits.
+git2 = { version = "0.13.25", default-features = false, features=[] }
 
-# Creating regexes
+# For checking affected paths.
 regex = "1.5.4"
 
 
 [dev-dependencies]
-rstest = "0.11.0"
+# For parameterized testing.
+rstest = "0.12.0"

@@ -12,17 +12,14 @@ categories = ["command-line-utilities", "development-tools"]
 
 
 [dependencies]
-# Logging
+# For logging.
 log = "0.4.14"
 pretty_env_logger = "0.4.0"
 
-# CLI parsing
+# For CLI parsing.
 structopt = "0.3.25"
 
-# Reading commits
-git2 = { version = "0.13.23", default-features = false, features=[] }
-
-# Creating regexes
-regex = "1.5.4"
+# For reading Git commits.
+git2 = { version = "0.13.25", default-features = false, features=[] }
 
 is_affected_lib = "0.1.1"
