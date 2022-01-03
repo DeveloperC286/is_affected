@@ -14,8 +14,8 @@ Feature: Check if the current directory contains any of the affected resources w
 
 
     Examples:
-      | repository                                     | checkout_commit                          | from_commit_hash                         | affects      | directory   |
-      | https://gitlab.com/gridtracker.org/gridtracker | 5c84509b26015ff47440642604dff31332ae3a8f | 5c33d4a910cc3535cd91751489beb37f8d704ca3 | ^package.nw/ | package.nw/ |
+      | repository                                    | checkout_commit                          | from_commit_hash                         | affects      | directory   |
+      | https://gitlab.com/thelamer/radarr-mirror.git | 746d788889ed4d0bbaae980afb6c86ec6651dea1 | 3d3be90eb1f3277c6fd53e3dee434052f08bd0dc | ^root/etc/ | root/etc/ |
 
 
   Scenario Outline:
