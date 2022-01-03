@@ -1,5 +1,4 @@
 [workspace]
-
 members = [
     "is_affected",
     "is_affected_lib",
