@@ -1,4 +1,7 @@
-[![crates.io](https://img.shields.io/crates/v/is_affected)](https://crates.io/crates/is_affected) [![pipeline status](https://gitlab.com/DeveloperC/is_affected/badges/main/pipeline.svg)](https://gitlab.com/DeveloperC/is_affected/-/commits/main) [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![License: AGPL v3](https://img.shields.io/badge/License-AGPLv3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
+[![crates.io](https://img.shields.io/crates/v/is_affected)](https://crates.io/crates/is_affected)
+[![pipeline status](https://gitlab.com/DeveloperC/is_affected/badges/main/pipeline.svg)](https://gitlab.com/DeveloperC/is_affected/-/commits/main)
+[![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
+[![License: AGPL v3](https://img.shields.io/badge/License-AGPLv3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
 
 
 A utility for checking and listing the affected resources across a range of commits, useful when working with monorepos.
@@ -61,8 +64,8 @@ example-stage:
     - cargo install is_affected --version ^0
   script:
     - cd monorepo/
-    # Check the monorepo is affected in the merge request or else skip the stage.
-    - /usr/local/cargo/bin/is_affected --from-reference "origin/$CI_MERGE_REQUEST_TARGET_BRANCH_NAME" --affects-current-directory || exit 0
+    # Check that the directory 'monorepo/' is affected in the merge request or else skip the stage.
+    - /usr/local/cargo/bin/is_affected --from-reference "origin/${CI_MERGE_REQUEST_TARGET_BRANCH_NAME}" --affects-current-directory || exit 0
     - ... rest of the stage
   rules:
     - if: $CI_MERGE_REQUEST_ID
@@ -82,8 +85,8 @@ example-stage:
     - is_affected="$(pwd)/is_affected"
   script:
     - cd monorepo/
-    # Check the monorepo is affected in the merge request or else skip the stage.
-    - ${is_affected} --from-reference "origin/$CI_MERGE_REQUEST_TARGET_BRANCH_NAME" --affects-current-directory || exit 0
+    # Check that the directory 'monorepo/' is affected in the merge request or else skip the stage.
+    - ${is_affected} --from-reference "origin/${CI_MERGE_REQUEST_TARGET_BRANCH_NAME}" --affects-current-directory || exit 0
     - ... rest of the stage
   rules:
     - if: $CI_MERGE_REQUEST_ID
@@ -111,7 +114,7 @@ The compiled binary is present at `target/release/is_affected`.
 
 
 ## Compiling via Cargo
-Cargo is the Rust package manager, the `install` sub-command pulls from [crates.io](https://crates.io/crates/is_affected) and then compiles the binary locally, placing the compiled binary at `$HOME/.cargo/bin/is_affected`.
+Cargo is the Rust package manager, the `install` sub-command pulls from [crates.io](https://crates.io/crates/is_affected) and then compiles the binary locally, placing the compiled binary at `${HOME}/.cargo/bin/is_affected`.
 
 ```
 cargo install is_affected
