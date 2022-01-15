@@ -39,8 +39,8 @@ One of the output arguments are required, but they conflict and can not be used 
 
 ### Usage - Git Environment Variables
 When looking for a repository the Git environment variables are respected.
-When `$GIT_DIR` is set, it takes precedence and Is affected begins searching for a repository in the directory specified in `$GIT_DIR`.
-When `$GIT_DIR` is not set, Is Affected searches for a repository beginning in the current directory.
+When `${GIT_DIR}` is set, it takes precedence and Is affected begins searching for a repository in the directory specified in `${GIT_DIR}`.
+When `${GIT_DIR}` is not set, Is Affected searches for a repository beginning in the current directory.
 
 
 ### Usage - Logging
