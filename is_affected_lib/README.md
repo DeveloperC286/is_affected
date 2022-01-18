@@ -1,7 +1,7 @@
 [![crates.io](https://img.shields.io/crates/v/is_affected_lib)](https://crates.io/crates/is_affected_lib)
-[![pipeline status](https://gitlab.com/DeveloperC/is_affected/badges/main/pipeline.svg)](https://gitlab.com/DeveloperC/is_affected/-/commits/main)
+[![Pipeline Status](https://gitlab.com/DeveloperC/is_affected/badges/main/pipeline.svg)](https://gitlab.com/DeveloperC/is_affected/-/commits/main)
 [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
-[![License: AGPL v3](https://img.shields.io/badge/License-AGPLv3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
+[![License](https://img.shields.io/badge/License-AGPLv3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
 
 
 A utility for checking and listing the affected resources across a range of commits, useful when working with monorepos.
