@@ -25,7 +25,7 @@ def is_not_affected(context):
 @then('their is a could not find commit hash "{commit_hash}" error.')
 def then_could_not_find_commit_hash(context, commit_hash):
     execute_is_affected(context)
-    could_not_find_commit_hash_error = " ERROR is_affected_lib > Can not find a commit with the hash '" + \
+    could_not_find_commit_hash_error = " ERROR is_affected_lib::commits > Can not find a commit with the hash '" + \
                                        commit_hash + "'.\n"
 
     assert context.stdout == ""
@@ -37,7 +37,7 @@ def then_could_not_find_commit_hash(context, commit_hash):
     'their is a could not find shortened commit hash "{shortened_commit_hash}" error.')
 def then_could_not_find_shortened_commit_hash(context, shortened_commit_hash):
     execute_is_affected(context)
-    could_not_find_shortened_commit_hash = " ERROR is_affected_lib > No commit hashes start with the provided short commit hash \"" + \
+    could_not_find_shortened_commit_hash = " ERROR is_affected_lib::commits > No commit hashes start with the provided short commit hash \"" + \
                                            shortened_commit_hash + "\".\n"
 
     assert context.stdout == ""
@@ -50,7 +50,7 @@ def then_could_not_find_shortened_commit_hash(context, shortened_commit_hash):
 def then_could_not_find_shortened_commit_hash(context, shortened_commit_hash):
     execute_is_affected(context)
     ambiguous_shortened_commit_hash = re.compile(
-        '^ ERROR is_affected_lib > Ambiguous short commit hash, the commit hashes [[](' +
+        '^ ERROR is_affected_lib::commits > Ambiguous short commit hash, the commit hashes [[](' +
         shortened_commit_hash +
         '[a-f0-9]*(, )?)*[]] all start with the provided short commit hash "' +
         shortened_commit_hash +
@@ -64,7 +64,7 @@ def then_could_not_find_shortened_commit_hash(context, shortened_commit_hash):
 @then('their is a could not find reference "{reference}" error.')
 def then_could_not_find_reference(context, reference):
     execute_is_affected(context)
-    could_not_find_reference_error = " ERROR is_affected_lib > Could not find a reference with the name \"" + reference + "\".\n"
+    could_not_find_reference_error = " ERROR is_affected_lib::commits > Could not find a reference with the name \"" + reference + "\".\n"
 
     assert context.stdout == ""
     assert int(context.exit_code) != 0
