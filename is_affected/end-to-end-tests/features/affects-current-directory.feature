@@ -6,9 +6,9 @@ Feature: Check if the current directory contains any of the affected resources w
     When the argument --from-commit-hash is provided as "<from_commit_hash>".
     And the argument --affects is provided as "<affects>".
     Then is affected.
-    Given the arguments are reset.
+	Given the arguments are reset.
+	And within the directory "<directory>" inside the cloned repository.
     When the argument --from-commit-hash is provided as "<from_commit_hash>".
-    And the directory is changed to "<directory>".
     And the --affects-current-directory flag is set.
     Then is affected.
 
@@ -24,8 +24,8 @@ Feature: Check if the current directory contains any of the affected resources w
     And the argument --affects is provided as "<affects>".
     Then is not affected.
     Given the arguments are reset.
+	And within the directory "<directory>" inside the cloned repository.
     When the argument --from-commit-hash is provided as "<from_commit_hash>".
-    And the directory is changed to "<directory>".
     And the --affects-current-directory flag is set.
     Then is not affected.
 

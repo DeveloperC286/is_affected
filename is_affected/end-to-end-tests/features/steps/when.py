@@ -26,8 +26,3 @@ def set_affects(context):
 @when('the --affects-current-directory flag is set.')
 def set_affects(context):
     context.arguments += " --affects-current-directory "
-
-
-@when('the directory is changed to "{directory}".')
-def change_directory(context, directory):
-    context.remote_repository_cache += "/" + directory
