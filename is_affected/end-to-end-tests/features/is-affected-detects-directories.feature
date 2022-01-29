@@ -3,7 +3,6 @@ Feature: Is affected can detect if a directory has been affect or not over a ran
 
   Scenario Outline:
     Given the repository "<repository>" is cloned and checked out at the commit "<checkout_commit>".
-    And the directory is changed to the cloned repository.
     When the argument --from-commit-hash is provided as "<from_commit_hash>".
     And the argument --affects is provided as "<affects>".
     Then is affected.
@@ -16,7 +15,6 @@ Feature: Is affected can detect if a directory has been affect or not over a ran
 
   Scenario Outline:
     Given the repository "<repository>" is cloned and checked out at the commit "<checkout_commit>".
-    And the directory is changed to the cloned repository.
     When the argument --from-commit-hash is provided as "<from_commit_hash>".
     And the argument --affects is provided as "<affects>".
     Then is not affected.

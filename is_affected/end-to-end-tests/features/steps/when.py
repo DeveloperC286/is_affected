@@ -29,5 +29,5 @@ def set_affects(context):
 
 
 @when('the directory is changed to "{directory}".')
-def change_directory(_, directory):
-    os.chdir(directory)
+def change_directory(context, directory):
+    context.remote_repository_cache += "/" + directory

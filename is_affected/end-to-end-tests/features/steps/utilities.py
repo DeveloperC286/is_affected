@@ -1,3 +1,5 @@
+import os
+
 from subprocess import Popen, PIPE
 
 
@@ -15,5 +17,11 @@ def execute_command(command):
 
 
 def execute_is_affected(context):
+    if "GIT_DIR" not in os.environ:
+        os.chdir(context.remote_repository_cache)
+
     (context.exit_code, context.stdout, context.stderr) = execute_command(
         context.is_affected_path + context.arguments)
+
+    if "GIT_DIR" not in os.environ:
+        os.chdir(context.behave_directory)

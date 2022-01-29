@@ -3,12 +3,10 @@ Feature: Git environment variables are respected and used instead of using the c
 
   Scenario Outline:
     Given the repository "<repository>" is cloned and checked out at the commit "<checkout_commit>".
-    And the directory is changed to the cloned repository.
     When the argument --from-commit-hash is provided as "<from_commit_hash>".
     And the argument --affects is provided as "<affects>".
     Then is affected.
-    Given the directory is changed to the behave directory.
-    And the GIT_DIR environment variable is set to the cloned repository.
+    Given the GIT_DIR environment variable is set to the cloned repository.
     Then is affected.
 
 
@@ -22,8 +20,7 @@ Feature: Git environment variables are respected and used instead of using the c
     When the argument --from-commit-hash is provided as "<from_commit_hash>".
     And the argument --affects is provided as "<affects>".
     Then is not affected.
-    Given the directory is changed to the behave directory.
-    And the GIT_DIR environment variable is set to the cloned repository.
+    Given the GIT_DIR environment variable is set to the cloned repository.
     Then is not affected.
 
 

@@ -3,7 +3,6 @@ Feature: A Git reference can be provided as an argument to indicate where to sta
 
   Scenario Outline:
     Given the repository "<repository>" is cloned and checked out at the commit "<checkout_commit>".
-    And the directory is changed to the cloned repository.
     When the argument --from-reference is provided as "<from_reference>".
     And the argument --affects is provided as "<affects>".
     Then is affected.
@@ -16,7 +15,6 @@ Feature: A Git reference can be provided as an argument to indicate where to sta
 
   Scenario Outline:
     Given the repository "<repository>" is cloned and checked out at the commit "<checkout_commit>".
-    And the directory is changed to the cloned repository.
     When the argument --from-reference is provided as "<from_reference>".
     And the argument --affects is provided as "<affects>".
     Then is not affected.
@@ -29,7 +27,6 @@ Feature: A Git reference can be provided as an argument to indicate where to sta
 
   Scenario Outline: You can also provide the long name and partial names not just the short name.
     Given the repository "<repository>" is cloned and checked out at the commit "<checkout_commit>".
-    And the directory is changed to the cloned repository.
     When the argument --from-reference is provided as "<from_full_reference>".
     And the argument --affects is provided as "<affects>".
     Then is affected.
@@ -50,7 +47,6 @@ Feature: A Git reference can be provided as an argument to indicate where to sta
 
   Scenario Outline: When you provide an invalid reference a relevant error message is returned.
     Given the repository "<repository>" is cloned and checked out at the commit "<checkout_commit>".
-    And the directory is changed to the cloned repository.
     When the argument --from-reference is provided as "<from_reference>".
     And the --list flag is set.
     Then their is a could not find reference "<from_reference>" error.
