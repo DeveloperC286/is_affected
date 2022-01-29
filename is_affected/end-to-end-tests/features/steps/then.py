@@ -1,7 +1,7 @@
 import re
 from behave import then
 
-from util import execute_is_affected
+from utilities import execute_is_affected
 
 
 @then('is affected.')
