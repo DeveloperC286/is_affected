@@ -5,9 +5,9 @@ Feature: Git environment variables are respected and used instead of using the c
     Given the repository "<repository>" is cloned and checked out at the commit "<checkout_commit>".
     When the argument --from-commit-hash is provided as "<from_commit_hash>".
     And the argument --affects is provided as "<affects>".
-	Then is affected.
+    Then is affected.
     Given the GIT_DIR environment variable is set to the cloned repository.
-	Then is affected.
+    Then is affected.
 
 
     Examples:
@@ -19,9 +19,9 @@ Feature: Git environment variables are respected and used instead of using the c
     Given the repository "<repository>" is cloned and checked out at the commit "<checkout_commit>".
     When the argument --from-commit-hash is provided as "<from_commit_hash>".
     And the argument --affects is provided as "<affects>".
-	Then is not affected.
+    Then is not affected.
     Given the GIT_DIR environment variable is set to the cloned repository.
-	Then is not affected.
+    Then is not affected.
 
 
     Examples:
