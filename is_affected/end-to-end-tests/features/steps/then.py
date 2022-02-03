@@ -39,7 +39,8 @@ def then_could_not_find_commit_hash_error(context, commit_hash):
 
 @then(
     'their is a could not find shortened commit hash "{shortened_commit_hash}" error.')
-def then_could_not_find_shortened_commit_hash_error(context, shortened_commit_hash):
+def then_could_not_find_shortened_commit_hash_error(
+        context, shortened_commit_hash):
     # Given
     could_not_find_shortened_commit_hash_error = " ERROR is_affected_lib::commits > No commit hashes start with the provided short commit hash \"" + \
         shortened_commit_hash + "\".\n"
@@ -121,53 +122,42 @@ def then_missing_output_argument_error(context):
 @then('their is a conflicting from arguments error.')
 def then_conflicting_from_arguments_error(context):
     # Given
-    conflicting_from_arguments_error_1 = "error: The argument '--from-commit-hash <from-commit-hash>' cannot be used with one or more of the other specified arguments\n" \
-                                         "\n" + \
-                                         "USAGE:\n" + \
-                                         "    is_affected <--from-commit-hash <from-commit-hash>|--from-reference <from-reference>> <--affects <affects>...|--affects-current-directory|--list>\n" + \
-                                         "\n" + \
-                                         "For more information try --help\n"
-    conflicting_from_arguments_error_2 = "error: The argument '--from-reference <from-reference>' cannot be used with one or more of the other specified arguments\n" \
-                                         "\n" + \
-                                         "USAGE:\n" + \
-                                         "    is_affected <--from-commit-hash <from-commit-hash>|--from-reference <from-reference>> <--affects <affects>...|--affects-current-directory|--list>\n" + \
-                                         "\n" + \
-                                         "For more information try --help\n"
+    conflicting_arguments_end = "\n" + \
+        "USAGE:\n" + \
+        "    is_affected <--from-commit-hash <from-commit-hash>|--from-reference <from-reference>> <--affects <affects>...|--affects-current-directory|--list>\n" + \
+        "\n" + \
+        "For more information try --help\n"
+    conflicting_from_commit_hash_error = "error: The argument '--from-commit-hash <from-commit-hash>' cannot be used with one or more of the other specified arguments\n" + conflicting_arguments_end
+    conflicting_from_reference_error = "error: The argument '--from-reference <from-reference>' cannot be used with one or more of the other specified arguments\n" + conflicting_arguments_end
 
     # When/Then
     is_not_affected(context)
 
     # Then
-    assert context.stderr == conflicting_from_arguments_error_1 or context.stderr == conflicting_from_arguments_error_2
+    assert context.stderr in [
+        conflicting_from_commit_hash_error, conflicting_from_reference_error]
 
 
 @then('their is a conflicting output arguments error.')
 def then_conflicting_output_arguments_error(context):
     # Given
-    conflicting_output_arguments_error_1 = "error: The argument '--affects <affects>...' cannot be used with one or more of the other specified arguments\n" \
-                                           "\n" + \
-                                           "USAGE:\n" + \
-                                           "    is_affected <--from-commit-hash <from-commit-hash>|--from-reference <from-reference>> <--affects <affects>...|--affects-current-directory|--list>\n" + \
-                                           "\n" + \
-                                           "For more information try --help\n"
-    conflicting_output_arguments_error_2 = "error: The argument '--list' cannot be used with one or more of the other specified arguments\n" \
-                                           "\n" + \
-                                           "USAGE:\n" + \
-                                           "    is_affected <--from-commit-hash <from-commit-hash>|--from-reference <from-reference>> <--affects <affects>...|--affects-current-directory|--list>\n" + \
-                                           "\n" + \
-                                           "For more information try --help\n"
-    conflicting_output_arguments_error_3 = "error: The argument '--affects-current-directory' cannot be used with one or more of the other specified arguments\n" \
-                                           "\n" + \
-                                           "USAGE:\n" + \
-                                           "    is_affected <--from-commit-hash <from-commit-hash>|--from-reference <from-reference>> <--affects <affects>...|--affects-current-directory|--list>\n" + \
-                                           "\n" + \
-                                           "For more information try --help\n"
+    conflicting_arguments_end = "\n" + \
+        "USAGE:\n" + \
+        "    is_affected <--from-commit-hash <from-commit-hash>|--from-reference <from-reference>> <--affects <affects>...|--affects-current-directory|--list>\n" + \
+        "\n" + \
+        "For more information try --help\n"
+    conflicting_affects_error = "error: The argument '--affects <affects>...' cannot be used with one or more of the other specified arguments\n" + conflicting_arguments_end
+    conflicting_list_error = "error: The argument '--list' cannot be used with one or more of the other specified arguments\n" + conflicting_arguments_end
+    conflicting_affects_current_directory_error = "error: The argument '--affects-current-directory' cannot be used with one or more of the other specified arguments\n" + conflicting_arguments_end
 
     # When/Then
     is_not_affected(context)
 
     # Then
-    assert context.stderr == conflicting_output_arguments_error_1 or context.stderr == conflicting_output_arguments_error_2 or context.stderr == conflicting_output_arguments_error_3
+    assert context.stderr in [
+        conflicting_affects_error,
+        conflicting_list_error,
+        conflicting_affects_current_directory_error]
 
 
 @then('the affected resources listed are "{affected_resources}".')
