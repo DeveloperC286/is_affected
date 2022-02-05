@@ -12,14 +12,3 @@ Feature: The from arguments conflict with one another and can not be provided at
     Examples:
       | repository                                                    | checkout_commit                          | from_commit_hash                         | from_reference |
       | https://github.com/ErickWendel/semana-javascript-expert05.git | 0fc4fe64ac53219ba202a6cc80e8bbcaa68bbd1f | c26d693cb53d3f82f52b462e1ca5f4a36510d094 | V1.2.0         |
-
-
-  Scenario Outline: You must provide one of the from arguments.
-    Given the repository "<repository>" is cloned and checked out at the commit "<checkout_commit>".
-    When the --list flag is set.
-    Then their is a missing from argument error.
-
-
-    Examples:
-      | repository                                                    | checkout_commit                          |
-      | https://github.com/ErickWendel/semana-javascript-expert05.git | 0fc4fe64ac53219ba202a6cc80e8bbcaa68bbd1f |
