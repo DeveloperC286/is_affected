@@ -76,13 +76,13 @@ example-stage:
 #### Via Binary Download
 See [Downloading Binary](#downloading-binary) for more details about Binary downloads.
 
-__Note - This example downloads version `0.4.1`.__
+__Note - This example downloads version `0.4.2`.__
 ```
 example-stage:
   stage: example-stage
   image: rust
   before_script:
-    - wget -q -O tmp.zip "https://gitlab.com/DeveloperC/is_affected/-/jobs/artifacts/0.4.1/download?job=release-binary-compiling-x86_64-linux-musl" && unzip tmp.zip && rm tmp.zip
+    - wget -q -O tmp.zip "https://gitlab.com/DeveloperC/is_effected/-/jobs/artifacts/bin-0.4.2/download?job=release-binary-compiling-x86_64-linux-musl" && unzip tmp.zip && rm tmp.zip
     - is_affected="$(pwd)/is_affected"
   script:
     - cd monorepo/
@@ -128,7 +128,7 @@ For certain environments such as CICD etc you may want to pin the version.
 e.g.
 
 ```
-cargo install is_affected --version 0.4.1
+cargo install is_affected --version 0.4.2
 ```
 
 Rather than pinning to a specific version you can specify the major or minor version.
@@ -139,7 +139,7 @@ e.g.
 cargo install is_affected --version ^0
 ```
 
-Will download the latest `0.*` release whether that is `0.4.1` or `0.7.0`.
+Will download the latest `0.*` release whether that is `0.4.2` or `0.7.0`.
 
 
 ## Unit Testing
