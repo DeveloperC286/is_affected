@@ -41,8 +41,8 @@ Feature: A Git reference can be provided as an argument to indicate where to sta
 
 
     Examples:
-      | repository                              | checkout_commit                          | from_full_reference | from_partial_reference | from_short_reference | affects                  |
-      | https://github.com/countercept/chainsaw | 9503898cdd1f594c4f19d56ef9ccd6aed60a2408 | refs/tags/v1.0.0    | tags/v1.0.0            | v1.0.0               | .github/workflows/ci.yml |
+      | repository                              | checkout_commit                          | from_full_reference | affects | from_partial_reference | from_short_reference |
+      | https://github.com/countercept/chainsaw | 9503898cdd1f594c4f19d56ef9ccd6aed60a2408 | refs/tags/v1.0.0    | .github/workflows/ci.yml | tags/v1.0.0            | v1.0.0               |
 
 
   Scenario Outline: When you provide an invalid reference a relevant error message is returned.

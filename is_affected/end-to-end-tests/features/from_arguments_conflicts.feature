@@ -3,8 +3,8 @@ Feature: The from arguments conflict with one another and can not be provided at
 
   Scenario Outline: You can not provide both a reference and a commit hash.
     Given the repository "<repository>" is cloned and checked out at the commit "<checkout_commit>".
-    When the argument --from-commit-hash is provided as "<from_commit_hash>".
-    And the argument --from-reference is provided as "<from_reference>".
+    When the argument --from-reference is provided as "<from_reference>".
+    And the argument --from-commit-hash is provided as "<from_commit_hash>".
     And the --list flag is set.
     Then their is a conflicting from arguments error.
 
