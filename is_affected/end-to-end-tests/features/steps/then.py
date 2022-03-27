@@ -27,8 +27,7 @@ def is_not_affected(context):
 @then('their is a could not find commit hash "{commit_hash}" error.')
 def then_could_not_find_commit_hash_error(context, commit_hash):
     # Given
-    could_not_find_commit_hash_error = " ERROR is_affected_lib::commits > Can not find a commit with the hash '" + \
-                                       commit_hash + "'.\n"
+    could_not_find_commit_hash_error = f" ERROR is_affected_lib::commits > Can not find a commit with the hash '{commit_hash}'.\n"
 
     # When/Then
     is_not_affected(context)
@@ -42,8 +41,7 @@ def then_could_not_find_commit_hash_error(context, commit_hash):
 def then_could_not_find_shortened_commit_hash_error(
         context, shortened_commit_hash):
     # Given
-    could_not_find_shortened_commit_hash_error = " ERROR is_affected_lib::commits > No commit hashes start with the provided short commit hash \"" + \
-        shortened_commit_hash + "\".\n"
+    could_not_find_shortened_commit_hash_error = f" ERROR is_affected_lib::commits > No commit hashes start with the provided short commit hash \"{shortened_commit_hash}\".\n"
 
     # When/Then
     is_not_affected(context)
@@ -57,11 +55,7 @@ def then_could_not_find_shortened_commit_hash_error(
 def then_ambiguous_shortened_commit_hash_error(context, shortened_commit_hash):
     # Given
     ambiguous_shortened_commit_hash_error = re.compile(
-        '^ ERROR is_affected_lib::commits > Ambiguous short commit hash, the commit hashes [[](' +
-        shortened_commit_hash +
-        '[a-f0-9]*(, )?)*[]] all start with the provided short commit hash "' +
-        shortened_commit_hash +
-        '".\n$')
+        f"^ ERROR is_affected_lib::commits > Ambiguous short commit hash, the commit hashes [[]({shortened_commit_hash}[a-f0-9]*(, )?)*[]] all start with the provided short commit hash \"{shortened_commit_hash}\".\n$")
 
     # When/Then
     is_not_affected(context)
@@ -74,7 +68,7 @@ def then_ambiguous_shortened_commit_hash_error(context, shortened_commit_hash):
 @then('their is a could not find reference "{reference}" error.')
 def then_could_not_find_reference_error(context, reference):
     # Given
-    could_not_find_reference_error = " ERROR is_affected_lib::commits > Could not find a reference with the name \"" + reference + "\".\n"
+    could_not_find_reference_error = f" ERROR is_affected_lib::commits > Could not find a reference with the name \"{reference}\".\n"
 
     # When/Then
     is_not_affected(context)
@@ -127,8 +121,8 @@ def then_conflicting_from_arguments_error(context):
         "    is_affected <--from-commit-hash <from-commit-hash>|--from-reference <from-reference>> <--affects <affects>...|--affects-current-directory|--list>\n" + \
         "\n" + \
         "For more information try --help\n"
-    conflicting_from_commit_hash_error = "error: The argument '--from-commit-hash <from-commit-hash>' cannot be used with one or more of the other specified arguments\n" + conflicting_arguments_end
-    conflicting_from_reference_error = "error: The argument '--from-reference <from-reference>' cannot be used with one or more of the other specified arguments\n" + conflicting_arguments_end
+    conflicting_from_commit_hash_error = f"error: The argument '--from-commit-hash <from-commit-hash>' cannot be used with one or more of the other specified arguments\n{conflicting_arguments_end}"
+    conflicting_from_reference_error = f"error: The argument '--from-reference <from-reference>' cannot be used with one or more of the other specified arguments\n{conflicting_arguments_end}"
 
     # When/Then
     is_not_affected(context)
@@ -146,9 +140,9 @@ def then_conflicting_output_arguments_error(context):
         "    is_affected <--from-commit-hash <from-commit-hash>|--from-reference <from-reference>> <--affects <affects>...|--affects-current-directory|--list>\n" + \
         "\n" + \
         "For more information try --help\n"
-    conflicting_affects_error = "error: The argument '--affects <affects>...' cannot be used with one or more of the other specified arguments\n" + conflicting_arguments_end
-    conflicting_list_error = "error: The argument '--list' cannot be used with one or more of the other specified arguments\n" + conflicting_arguments_end
-    conflicting_affects_current_directory_error = "error: The argument '--affects-current-directory' cannot be used with one or more of the other specified arguments\n" + conflicting_arguments_end
+    conflicting_affects_error = f"error: The argument '--affects <affects>...' cannot be used with one or more of the other specified arguments\n{conflicting_arguments_end}"
+    conflicting_list_error = f"error: The argument '--list' cannot be used with one or more of the other specified arguments\n{conflicting_arguments_end}"
+    conflicting_affects_current_directory_error = f"error: The argument '--affects-current-directory' cannot be used with one or more of the other specified arguments\n{conflicting_arguments_end}"
 
     # When/Then
     is_not_affected(context)
