@@ -57,7 +57,7 @@ See [Compiling via Cargo](#compiling-via-cargo) for more details about installin
 
 __Note - This example downloads the latest `0.*` version.__
 
-```
+```yaml
 example-stage:
   stage: example-stage
   image: rust
@@ -77,7 +77,7 @@ example-stage:
 See [Downloading Binary](#downloading-binary) for more details about Binary downloads.
 
 __Note - This example downloads version `0.4.2`.__
-```
+```yaml
 example-stage:
   stage: example-stage
   image: rust
@@ -105,7 +105,7 @@ If you do not trust the provided binaries another option is to compile your own 
 Checkout the code repository locally, change into the repository's directory and then build via Cargo.
 Using the `--release` flag produces an optimised binary but takes longer to compile.
 
-```
+```sh
 git clone git@gitlab.com:DeveloperC/is_affected.git
 cd is_affected/
 cargo build --release
@@ -117,7 +117,7 @@ The compiled binary is present at `target/release/is_affected`.
 ## Compiling via Cargo
 Cargo is the Rust package manager, the `install` sub-command pulls from [crates.io](https://crates.io/crates/is_affected) and then compiles the binary locally, placing the compiled binary at `${HOME}/.cargo/bin/is_affected`.
 
-```
+```sh
 cargo install is_affected
 ```
 
@@ -127,7 +127,7 @@ For certain environments such as CICD etc you may want to pin the version.
 
 e.g.
 
-```
+```sh
 cargo install is_affected --version 0.4.2
 ```
 
@@ -135,7 +135,7 @@ Rather than pinning to a specific version you can specify the major or minor ver
 
 e.g.
 
-```
+```sh
 cargo install is_affected --version ^0
 ```
 
@@ -145,7 +145,7 @@ Will download the latest `0.*` release whether that is `0.4.2` or `0.7.0`.
 ## Unit Testing
 The unit test suite has several parameterised tests, Cargo is used to set up and run all the unit tests.
 
-```
+```sh
 cargo test
 ```
 
@@ -160,7 +160,7 @@ To run the test suite you need to
 
 __Note - You can't use --release as the test suite uses `target/debug/is_affected`.__
 
-```
+```sh
 cargo build
 cd is_affected/end-to-end-tests/
 virtualenv -p python3 .venv
