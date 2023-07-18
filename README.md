@@ -4,7 +4,7 @@
 [![License](https://img.shields.io/badge/License-AGPLv3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
 
 
-A Git history linter to ensure it stays clean for those who prefer rebasing and fast-forwarding compared to merge and squash commits.
+A utility for checking and listing the affected resources across a range of commits, useful when working with monorepos.
 
 Provided are a binary and a library. The binary is a standalone CLI tool that wraps the library. See the respective directories for more information on each.
 
