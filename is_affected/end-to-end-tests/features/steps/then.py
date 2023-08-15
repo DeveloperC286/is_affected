@@ -34,7 +34,7 @@ def then_could_not_find_commit_hash_error(context, commit_hash):
     is_not_affected(context)
 
     # Then
-    assert context.stderr == could_not_find_commit_hash_error
+    assert_error_equals(context, could_not_find_commit_hash_error)
 
 
 @then(
@@ -48,7 +48,7 @@ def then_could_not_find_shortened_commit_hash_error(
     is_not_affected(context)
 
     # Then
-    assert context.stderr == could_not_find_shortened_commit_hash_error
+    assert_error_equals(context, could_not_find_shortened_commit_hash_error)
 
 
 @then(
@@ -75,7 +75,7 @@ def then_could_not_find_reference_error(context, reference):
     is_not_affected(context)
 
     # Then
-    assert context.stderr == could_not_find_reference_error
+    assert_error_equals(context, could_not_find_reference_error)
 
 
 @then('their is a missing from argument error.')
@@ -93,7 +93,7 @@ def then_missing_from_argument_error(context):
     is_not_affected(context)
 
     # Then
-    assert context.stderr == missing_from_argument_error
+    assert_error_equals(context, missing_from_argument_error)
 
 
 @then('their is a missing output argument error.')
@@ -111,7 +111,7 @@ def then_missing_output_argument_error(context):
     is_not_affected(context)
 
     # Then
-    assert context.stderr == missing_output_argument_error
+    assert_error_equals(context, missing_output_argument_error)
 
 
 @then('their is a conflicting from arguments error.')
