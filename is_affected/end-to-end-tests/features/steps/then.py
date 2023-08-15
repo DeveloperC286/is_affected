@@ -21,7 +21,7 @@ def is_not_affected(context):
     execute_is_affected(context)
 
     # Then
-    assert context.stdout == ""
+    assert_no_output(context)
     assert_command_unsuccessful(context)
 
 
