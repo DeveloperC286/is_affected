@@ -11,7 +11,7 @@ def is_affected(context):
     execute_is_affected(context)
 
     # Then
-    assert context.stderr == ""
+    assert_no_errors(context)
     assert_command_successful(context)
 
 
