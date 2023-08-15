@@ -15,6 +15,15 @@ def assert_is_affected(context):
     assert_command_successful(context)
 
 
+@then('the affected resources listed are "{affected_resources}".')
+def assert_affected_resources_are(context, affected_resources):
+    # When/Then
+    assert_is_affected(context)
+
+    # Then
+    assert_affected_resources(context, affected_resources)
+
+
 @then('is not affected.')
 def assert_is_not_affected(context):
     # When
@@ -153,12 +162,3 @@ def assert_conflicting_output_arguments_error(context):
         conflicting_affects_error,
         conflicting_list_error,
         conflicting_affects_current_directory_error])
-
-
-@then('the affected resources listed are "{affected_resources}".')
-def assert_affected_resources_are(context, affected_resources):
-    # When/Then
-    assert_is_affected(context)
-
-    # Then
-    assert context.stdout == affected_resources.strip().strip('\"').replace("\\n", '\n')

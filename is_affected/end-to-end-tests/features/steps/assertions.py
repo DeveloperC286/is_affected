@@ -25,3 +25,8 @@ def assert_error_matches_regex(context, regex):
 
 def assert_error_is_one_of(context, errors):
     assert context.stderr in errors, f"Expected standard error to equal one of these errors.\nStandard error = {context.stderr.encode()}.\nErrors         = {errors}.\n"
+
+
+def assert_affected_resources(context, affected_resources):
+    affected_resources = affected_resources.strip().strip('\"').replace("\\n", '\n')
+    assert context.stdout == affected_resources, f"The affected resources was not what was expected.\nExpected =\n {affected_resources}.\nActual   = \n {context.stdout}\n"
