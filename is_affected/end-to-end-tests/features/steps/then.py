@@ -8,30 +8,32 @@ from assertions import *
 @then('is affected.')
 def assert_is_affected(context):
     # When
-    execute_is_affected(context)
+    result = execute_is_affected(context)
 
     # Then
-    assert_no_errors(context)
-    assert_command_successful(context)
+    assert_no_errors(result)
+    assert_command_successful(result)
+    return result
 
 
 @then('the affected resources listed are "{affected_resources}".')
 def assert_affected_resources_are(context, affected_resources):
     # When/Then
-    assert_is_affected(context)
+    result = assert_is_affected(context)
 
     # Then
-    assert_affected_resources(context, affected_resources)
+    assert_affected_resources(result, affected_resources)
 
 
 @then('is not affected.')
 def assert_is_not_affected(context):
     # When
-    execute_is_affected(context)
+    result = execute_is_affected(context)
 
     # Then
-    assert_no_output(context)
-    assert_command_unsuccessful(context)
+    assert_no_output(result)
+    assert_command_unsuccessful(result)
+    return result
 
 
 @then('their is a could not find commit hash "{commit_hash}" error.')
@@ -40,10 +42,10 @@ def assert_could_not_find_commit_hash_error(context, commit_hash):
     could_not_find_commit_hash_error = f" ERROR is_affected_lib::commits > Can not find a commit with the hash '{commit_hash}'.\n"
 
     # When/Then
-    assert_is_not_affected(context)
+    result = assert_is_not_affected(context)
 
     # Then
-    assert_error_equals(context, could_not_find_commit_hash_error)
+    assert_error_equals(result, could_not_find_commit_hash_error)
 
 
 @then(
@@ -54,10 +56,10 @@ def assert_could_not_find_shortened_commit_hash_error(
     could_not_find_shortened_commit_hash_error = f" ERROR is_affected_lib::commits > No commit hashes start with the provided short commit hash \"{shortened_commit_hash}\".\n"
 
     # When/Then
-    assert_is_not_affected(context)
+    result = assert_is_not_affected(context)
 
     # Then
-    assert_error_equals(context, could_not_find_shortened_commit_hash_error)
+    assert_error_equals(result, could_not_find_shortened_commit_hash_error)
 
 
 @then(
@@ -69,10 +71,10 @@ def assert_ambiguous_shortened_commit_hash_error(
         f"^ ERROR is_affected_lib::commits > Ambiguous short commit hash, the commit hashes [[]({shortened_commit_hash}[a-f0-9]*(, )?)*[]] all start with the provided short commit hash \"{shortened_commit_hash}\".\n$")
 
     # When/Then
-    assert_is_not_affected(context)
+    result = assert_is_not_affected(context)
 
     # Then
-    assert_error_matches_regex(context, ambiguous_shortened_commit_hash_error)
+    assert_error_matches_regex(result, ambiguous_shortened_commit_hash_error)
 
 
 @then('their is a could not find reference "{reference}" error.')
@@ -81,10 +83,10 @@ def assert_could_not_find_reference_error(context, reference):
     could_not_find_reference_error = f" ERROR is_affected_lib::commits > Could not find a reference with the name \"{reference}\".\n"
 
     # When/Then
-    assert_is_not_affected(context)
+    result = assert_is_not_affected(context)
 
     # Then
-    assert_error_equals(context, could_not_find_reference_error)
+    assert_error_equals(result, could_not_find_reference_error)
 
 
 @then('their is a missing from argument error.')
@@ -99,10 +101,10 @@ def assert_missing_from_argument_error(context):
                                   "For more information try --help\n"
 
     # When/Then
-    assert_is_not_affected(context)
+    result = assert_is_not_affected(context)
 
     # Then
-    assert_error_equals(context, missing_from_argument_error)
+    assert_error_equals(result, missing_from_argument_error)
 
 
 @then('their is a missing output argument error.')
@@ -117,10 +119,10 @@ def assert_missing_output_argument_error(context):
                                     "For more information try --help\n"
 
     # When/Then
-    assert_is_not_affected(context)
+    result = assert_is_not_affected(context)
 
     # Then
-    assert_error_equals(context, missing_output_argument_error)
+    assert_error_equals(result, missing_output_argument_error)
 
 
 @then('their is a conflicting from arguments error.')
@@ -135,10 +137,10 @@ def assert_conflicting_from_arguments_error(context):
     conflicting_from_reference_error = f"error: The argument '--from-reference <from-reference>' cannot be used with one or more of the other specified arguments\n{conflicting_arguments_end}"
 
     # When/Then
-    assert_is_not_affected(context)
+    result = assert_is_not_affected(context)
 
     # Then
-    assert_error_is_one_of(context, [
+    assert_error_is_one_of(result, [
         conflicting_from_commit_hash_error, conflicting_from_reference_error])
 
 
@@ -155,10 +157,10 @@ def assert_conflicting_output_arguments_error(context):
     conflicting_affects_current_directory_error = f"error: The argument '--affects-current-directory' cannot be used with one or more of the other specified arguments\n{conflicting_arguments_end}"
 
     # When/Then
-    assert_is_not_affected(context)
+    result = assert_is_not_affected(context)
 
     # Then
-    assert_error_is_one_of(context, [
+    assert_error_is_one_of(result, [
         conflicting_affects_error,
         conflicting_list_error,
         conflicting_affects_current_directory_error])
