@@ -2,7 +2,7 @@ import re
 from behave import then
 
 from utilities import execute_is_affected
-from assertions import assert_command_successful
+from assertions import *
 
 
 @then('is affected.')
@@ -22,7 +22,7 @@ def is_not_affected(context):
 
     # Then
     assert context.stdout == ""
-    assert int(context.exit_code) != 0
+    assert_command_unsuccessful(context)
 
 
 @then('their is a could not find commit hash "{commit_hash}" error.')
