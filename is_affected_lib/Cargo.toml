@@ -13,15 +13,15 @@ categories = ["data-structures", "development-tools", "config", "parser-implemen
 
 [dependencies]
 # For logging.
-log = "0.4.14"
+log = "0.4.20"
 
 # For reading Git commits.
-git2 = { version = "0.13.25", default-features = false, features=[] }
+git2 = { version = "0.17.2", default-features = false, features=[] }
 
 # For checking affected paths.
-regex = "1.5.4"
+regex = "1.9.3"
 
 
 [dev-dependencies]
 # For parameterized testing.
-rstest = "0.12.0"
+rstest = "0.18.2"

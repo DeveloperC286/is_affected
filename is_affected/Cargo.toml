@@ -13,13 +13,13 @@ categories = ["command-line-utilities", "development-tools", "config", "parser-i
 
 [dependencies]
 # For logging.
-log = "0.4.14"
-pretty_env_logger = "0.4.0"
+log = "0.4.20"
+pretty_env_logger = "0.5.0"
 
 # For CLI parsing.
-structopt = "0.3.25"
+structopt = "0.3.26"
 
 # For reading Git commits.
-git2 = { version = "0.13.25", default-features = false, features=[] }
+git2 = { version = "0.17.2", default-features = false, features=[] }
 
 is_affected_lib = "0.1.1"
