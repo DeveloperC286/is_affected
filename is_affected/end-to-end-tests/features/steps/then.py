@@ -128,8 +128,8 @@ def then_conflicting_from_arguments_error(context):
     is_not_affected(context)
 
     # Then
-    assert context.stderr in [
-        conflicting_from_commit_hash_error, conflicting_from_reference_error]
+    assert_error_is_one_of(context, [
+        conflicting_from_commit_hash_error, conflicting_from_reference_error])
 
 
 @then('their is a conflicting output arguments error.')
@@ -148,10 +148,10 @@ def then_conflicting_output_arguments_error(context):
     is_not_affected(context)
 
     # Then
-    assert context.stderr in [
+    assert_error_is_one_of(context, [
         conflicting_affects_error,
         conflicting_list_error,
-        conflicting_affects_current_directory_error]
+        conflicting_affects_current_directory_error])
 
 
 @then('the affected resources listed are "{affected_resources}".')
