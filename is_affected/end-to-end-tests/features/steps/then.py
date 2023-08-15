@@ -2,6 +2,7 @@ import re
 from behave import then
 
 from utilities import execute_is_affected
+from assertions import assert_command_successful
 
 
 @then('is affected.')
@@ -11,7 +12,7 @@ def is_affected(context):
 
     # Then
     assert context.stderr == ""
-    assert int(context.exit_code) == 0
+    assert_command_successful(context)
 
 
 @then('is not affected.')
