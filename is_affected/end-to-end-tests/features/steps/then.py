@@ -92,13 +92,7 @@ def assert_could_not_find_reference_error(context, reference):
 @then('their is a missing from argument error.')
 def assert_missing_from_argument_error(context):
     # Given
-    missing_from_argument_error = "error: The following required arguments were not provided:\n" + \
-                                  "    <--from-commit-hash <from-commit-hash>|--from-reference <from-reference>>\n" + \
-                                  "\n" + \
-                                  "USAGE:\n" + \
-                                  "    is_affected <--from-commit-hash <from-commit-hash>|--from-reference <from-reference>> <--affects <affects>...|--affects-current-directory|--list>\n" + \
-                                  "\n" + \
-                                  "For more information try --help\n"
+    missing_from_argument_error = "error: the following required arguments were not provided:\n  <--from-commit-hash <FROM_COMMIT_HASH>|--from-reference <FROM_REFERENCE>>\n\nUsage: is_affected <--from-commit-hash <FROM_COMMIT_HASH>|--from-reference <FROM_REFERENCE>> <--affects <AFFECTS>|--affects-current-directory|--list>\n\nFor more information, try '--help'.\n"
 
     # When/Then
     result = assert_is_not_affected(context)
@@ -110,13 +104,7 @@ def assert_missing_from_argument_error(context):
 @then('their is a missing output argument error.')
 def assert_missing_output_argument_error(context):
     # Given
-    missing_output_argument_error = "error: The following required arguments were not provided:\n" + \
-                                    "    <--affects <affects>...|--affects-current-directory|--list>\n" + \
-                                    "\n" + \
-                                    "USAGE:\n" + \
-                                    "    is_affected <--from-commit-hash <from-commit-hash>|--from-reference <from-reference>> <--affects <affects>...|--affects-current-directory|--list>\n" + \
-                                    "\n" + \
-                                    "For more information try --help\n"
+    missing_output_argument_error = "error: the following required arguments were not provided:\n  <--affects <AFFECTS>|--affects-current-directory|--list>\n\nUsage: is_affected <--from-commit-hash <FROM_COMMIT_HASH>|--from-reference <FROM_REFERENCE>> <--affects <AFFECTS>|--affects-current-directory|--list>\n\nFor more information, try '--help'.\n"
 
     # When/Then
     result = assert_is_not_affected(context)
@@ -128,13 +116,8 @@ def assert_missing_output_argument_error(context):
 @then('their is a conflicting from arguments error.')
 def assert_conflicting_from_arguments_error(context):
     # Given
-    conflicting_arguments_end = "\n" + \
-        "USAGE:\n" + \
-        "    is_affected <--from-commit-hash <from-commit-hash>|--from-reference <from-reference>> <--affects <affects>...|--affects-current-directory|--list>\n" + \
-        "\n" + \
-        "For more information try --help\n"
-    conflicting_from_commit_hash_error = f"error: The argument '--from-commit-hash <from-commit-hash>' cannot be used with one or more of the other specified arguments\n{conflicting_arguments_end}"
-    conflicting_from_reference_error = f"error: The argument '--from-reference <from-reference>' cannot be used with one or more of the other specified arguments\n{conflicting_arguments_end}"
+    conflicting_from_commit_hash_error = "error: the argument '--from-commit-hash <FROM_COMMIT_HASH>' cannot be used with '--from-reference <FROM_REFERENCE>'\n\nUsage: is_affected <--from-commit-hash <FROM_COMMIT_HASH>|--from-reference <FROM_REFERENCE>> <--affects <AFFECTS>|--affects-current-directory|--list>\n\nFor more information, try '--help'.\n"
+    conflicting_from_reference_error = "error: the argument '--from-reference <FROM_REFERENCE>' cannot be used with '--from-commit-hash <FROM_COMMIT_HASH>'\n\nUsage: is_affected <--from-commit-hash <FROM_COMMIT_HASH>|--from-reference <FROM_REFERENCE>> <--affects <AFFECTS>|--affects-current-directory|--list>\n\nFor more information, try '--help'.\n"
 
     # When/Then
     result = assert_is_not_affected(context)
@@ -147,20 +130,22 @@ def assert_conflicting_from_arguments_error(context):
 @then('their is a conflicting output arguments error.')
 def assert_conflicting_output_arguments_error(context):
     # Given
-    conflicting_arguments_end = "\n" + \
-        "USAGE:\n" + \
-        "    is_affected <--from-commit-hash <from-commit-hash>|--from-reference <from-reference>> <--affects <affects>...|--affects-current-directory|--list>\n" + \
-        "\n" + \
-        "For more information try --help\n"
-    conflicting_affects_error = f"error: The argument '--affects <affects>...' cannot be used with one or more of the other specified arguments\n{conflicting_arguments_end}"
-    conflicting_list_error = f"error: The argument '--list' cannot be used with one or more of the other specified arguments\n{conflicting_arguments_end}"
-    conflicting_affects_current_directory_error = f"error: The argument '--affects-current-directory' cannot be used with one or more of the other specified arguments\n{conflicting_arguments_end}"
+    conflicting_affects_list_error = "error: the argument '--affects <AFFECTS>' cannot be used with '--list'\n\nUsage: is_affected <--from-commit-hash <FROM_COMMIT_HASH>|--from-reference <FROM_REFERENCE>> <--affects <AFFECTS>|--affects-current-directory|--list>\n\nFor more information, try '--help'.\n"
+    conflicting_affects_affects_current_directory_error = "error: the argument '--affects <AFFECTS>' cannot be used with '--affects-current-directory'\n\nUsage: is_affected <--from-commit-hash <FROM_COMMIT_HASH>|--from-reference <FROM_REFERENCE>> <--affects <AFFECTS>|--affects-current-directory|--list>\n\nFor more information, try '--help'.\n"
+    conflicting_list_affects_error = "error: the argument '--list' cannot be used with '--affects <AFFECTS>'\n\nUsage: is_affected <--from-commit-hash <FROM_COMMIT_HASH>|--from-reference <FROM_REFERENCE>> <--affects <AFFECTS>|--affects-current-directory|--list>\n\nFor more information, try '--help'.\n"
+    conflicting_list_affects_current_directory_error = "error: the argument '--list' cannot be used with '--affects-current-directory'\n\nUsage: is_affected <--from-commit-hash <FROM_COMMIT_HASH>|--from-reference <FROM_REFERENCE>> <--affects <AFFECTS>|--affects-current-directory|--list>\n\nFor more information, try '--help'.\n"
+    conflicting_affects_current_directory_affects_error = "error: the argument '--affects-current-directory' cannot be used with '--affects <AFFECTS>'\n\nUsage: is_affected <--from-commit-hash <FROM_COMMIT_HASH>|--from-reference <FROM_REFERENCE>> <--affects <AFFECTS>|--affects-current-directory|--list>\n\nFor more information, try '--help'.\n"
+    conflicting_affects_current_directory_list_error = "error: the argument '--affects-current-directory' cannot be used with '--list'\n\nUsage: is_affected <--from-commit-hash <FROM_COMMIT_HASH>|--from-reference <FROM_REFERENCE>> <--affects <AFFECTS>|--affects-current-directory|--list>\n\nFor more information, try '--help'.\n"
 
     # When/Then
     result = assert_is_not_affected(context)
 
     # Then
     assert_error_is_one_of(result, [
-        conflicting_affects_error,
-        conflicting_list_error,
-        conflicting_affects_current_directory_error])
+        conflicting_affects_list_error,
+        conflicting_affects_affects_current_directory_error,
+        conflicting_list_affects_error,
+        conflicting_list_affects_current_directory_error,
+        conflicting_affects_current_directory_affects_error,
+        conflicting_affects_current_directory_list_error,
+    ])
