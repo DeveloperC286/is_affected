@@ -19,7 +19,7 @@ log = "0.4.20"
 git2 = { version = "0.17.2", default-features = false, features=[] }
 
 # For checking affected paths.
-regex = "1.9.3"
+regex = "1.9.5"
 
 
 [dev-dependencies]
