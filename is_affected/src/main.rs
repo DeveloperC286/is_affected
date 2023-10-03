@@ -29,9 +29,7 @@ fn main() {
                     Commits::from_reference(&repository, from_reference)
                 }
                 (_, _) => {
-                    unreachable!(
-                        "Invalid combination of from arguments, should have been caught by structopt."
-                    );
+                    unreachable!("Invalid combination of arguments.");
                 }
             };
 
