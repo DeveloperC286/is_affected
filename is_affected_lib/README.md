@@ -20,4 +20,4 @@ See [https://crates.io/crates/log](https://crates.io/crates/log) for more detail
 
 
 ## Issues/Feature Requests
-To report an issue or request a new feature use [https://gitlab.com/DeveloperC/is_affected/-/issues](https://gitlab.com/DeveloperC/is_affected/-/issues).
+To report an issue or request a new feature use [https://github.com/DeveloperC286/is_affected/issues](https://github.com/DeveloperC286/is_affected/issues).
