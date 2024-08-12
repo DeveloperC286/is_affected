@@ -12,9 +12,8 @@ A utility for checking and listing the affected resources across a range of comm
    + [Usage - Git Environment Variables](#usage-git-environment-variables)
    + [Usage - Logging](#usage-logging)
  * [CICD Examples](#cicd-examples)
-  + [GitLab CI Rust Project Example](#gitlab-ci-rust-project-example)
-    + [Via Cargo](#via-cargo)
-    + [Via Binary Download](#via-binary-download)
+   + [GitHub Actions](#github-actions)
+   + [GitLab CI](#gitlab-ci)
  * [Downloading Binary](#downloading-binary)
  * [Compiling via Local Repository](#compiling-via-local-repository)
  * [Compiling via Cargo](#compiling-via-cargo)
@@ -51,46 +50,82 @@ See [https://crates.io/crates/pretty_env_logger](https://crates.io/crates/pretty
 
 
 ## CICD Examples
-### GitLab CI Rust Project Example
-#### Via Cargo
-See [Compiling via Cargo](#compiling-via-cargo) for more details about installing via Cargo.
+All CI examples set up the environment and then execute a script to perform the action.
+This approach is recommended as it allows us to avoid provider-specific quirks and constraints, while also enabling us to execute the same logic locally.
+It also enables the use of tools such as formatter and linters, ensuring consistency and reducing errors compared to embedding commands directly into the CI provider's custom syntax.
 
-__Note - This example downloads the latest `0.*` version.__
-
+### GitHub Actions
 ```yaml
-example-stage:
-  stage: example-stage
+name: Example
+
+on: pull_request
+
+jobs:
+  example:
+    runs-on: ubuntu-latest
+    container:
+      image: rust
+    steps:
+      - name: Checkout code.
+        uses: actions/checkout@v3
+        # https://github.com/actions/checkout
+        # Checks out only a single merge commit of the pull request and the target branch by default.
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+      - name: Install is_affected.
+        # Installation options
+        # https://github.com/DeveloperC286/is_affected/tree/main/is_affected#downloading-binary
+        # https://github.com/DeveloperC286/is_affected/tree/main/is_affected#compiling-via-cargo
+        run: cargo install is_affected --version ^0
+      - name: Example is_affected usage.
+        run: ci/example.sh
+```
+
+```sh
+#!/usr/bin/env sh
+
+set -o errexit
+set -o xtrace
+
+# https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/variables
+target="origin/${GITHUB_BASE_REF}"
+
+# Only act if the directory 'frontend/' is affected in the merge/pull request.
+if is_affected --from-reference "${target}" --affects "frontend/"; then
+	echo "..."
+fi
+```
+
+
+### GitLab CI
+```yaml
+example:
   image: rust
   before_script:
+    # Installation options
+    # https://github.com/DeveloperC286/is_affected/tree/main/is_affected#downloading-binary
+    # https://github.com/DeveloperC286/is_affected/tree/main/is_affected#compiling-via-cargo
     - cargo install is_affected --version ^0
   script:
-    - cd monorepo/
-    # Check that the directory 'monorepo/' is affected in the merge request or else skip the stage.
-    - /usr/local/cargo/bin/is_affected --from-reference "origin/${CI_MERGE_REQUEST_TARGET_BRANCH_NAME}" --affects-current-directory || exit 0
-    - ... rest of the stage
+    - ci/example.sh
   rules:
     - if: $CI_MERGE_REQUEST_ID
 ```
 
+```sh
+#!/usr/bin/env sh
 
-#### Via Binary Download
-See [Downloading Binary](#downloading-binary) for more details about Binary downloads.
+set -o errexit
+set -o xtrace
 
-__Note - This example downloads version `0.4.2`.__
-```yaml
-example-stage:
-  stage: example-stage
-  image: rust
-  before_script:
-    - wget -q -O tmp.zip "https://gitlab.com/DeveloperC/is_effected/-/jobs/artifacts/bin-0.4.2/download?job=release-binary-compiling-x86_64-linux-musl" && unzip tmp.zip && rm tmp.zip
-    - is_affected="$(pwd)/is_affected"
-  script:
-    - cd monorepo/
-    # Check that the directory 'monorepo/' is affected in the merge request or else skip the stage.
-    - ${is_affected} --from-reference "origin/${CI_MERGE_REQUEST_TARGET_BRANCH_NAME}" --affects-current-directory || exit 0
-    - ... rest of the stage
-  rules:
-    - if: $CI_MERGE_REQUEST_ID
+# https://docs.gitlab.com/ee/ci/variables/predefined_variables.html
+target="origin/${CI_MERGE_REQUEST_TARGET_BRANCH_NAME}"
+
+# Only act if the directory 'frontend/' is affected in the merge/pull request.
+if is_affected --from-reference "${target}" --affects "frontend/"; then
+	echo "..."
+fi
 ```
 
 
