@@ -1,0 +1,22 @@
+name: Example
+
+on: pull_request
+
+jobs:
+  example:
+    name: example
+    runs-on: ubuntu-latest
+    container:
+      image: rust
+    steps:
+      - name: Checkout code.
+        uses: actions/checkout@v3
+        # https://github.com/actions/checkout
+        # Checks out only a single merge commit of the pull request and the target branch by default.
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+      - name: Install is_affected.
+        run: cargo install is_affected --version ^0
+      - name: Example.
+        run: ci/example.sh

@@ -12,9 +12,8 @@ A utility for checking and listing the affected resources across a range of comm
    + [Usage - Git Environment Variables](#usage-git-environment-variables)
    + [Usage - Logging](#usage-logging)
  * [CICD Examples](#cicd-examples)
-  + [GitLab CI Rust Project Example](#gitlab-ci-rust-project-example)
-    + [Via Cargo](#via-cargo)
-    + [Via Binary Download](#via-binary-download)
+  + [GitHub Actions](#github-actions)
+  + [GitLab CI](#gitlab-ci)
  * [Downloading Binary](#downloading-binary)
  * [Compiling via Local Repository](#compiling-via-local-repository)
  * [Compiling via Cargo](#compiling-via-cargo)
@@ -51,9 +50,20 @@ See [https://crates.io/crates/pretty_env_logger](https://crates.io/crates/pretty
 
 
 ## CICD Examples
-### GitLab CI Rust Project Example
-#### Via Cargo
+### GitHub Actions
 See [Compiling via Cargo](#compiling-via-cargo) for more details about installing via Cargo.
+See [Downloading Binary](#downloading-binary) for more details about Binary downloads.
+
+__Note - This example downloads the latest `0.*` version.__
+
+```yaml
+
+```
+
+
+### GitLab CI
+See [Compiling via Cargo](#compiling-via-cargo) for more details about installing via Cargo.
+See [Downloading Binary](#downloading-binary) for more details about Binary downloads.
 
 __Note - This example downloads the latest `0.*` version.__
 
@@ -67,27 +77,6 @@ example-stage:
     - cd monorepo/
     # Check that the directory 'monorepo/' is affected in the merge request or else skip the stage.
     - /usr/local/cargo/bin/is_affected --from-reference "origin/${CI_MERGE_REQUEST_TARGET_BRANCH_NAME}" --affects-current-directory || exit 0
-    - ... rest of the stage
-  rules:
-    - if: $CI_MERGE_REQUEST_ID
-```
-
-
-#### Via Binary Download
-See [Downloading Binary](#downloading-binary) for more details about Binary downloads.
-
-__Note - This example downloads version `0.4.2`.__
-```yaml
-example-stage:
-  stage: example-stage
-  image: rust
-  before_script:
-    - wget -q -O tmp.zip "https://gitlab.com/DeveloperC/is_effected/-/jobs/artifacts/bin-0.4.2/download?job=release-binary-compiling-x86_64-linux-musl" && unzip tmp.zip && rm tmp.zip
-    - is_affected="$(pwd)/is_affected"
-  script:
-    - cd monorepo/
-    # Check that the directory 'monorepo/' is affected in the merge request or else skip the stage.
-    - ${is_affected} --from-reference "origin/${CI_MERGE_REQUEST_TARGET_BRANCH_NAME}" --affects-current-directory || exit 0
     - ... rest of the stage
   rules:
     - if: $CI_MERGE_REQUEST_ID
