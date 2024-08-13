@@ -16,7 +16,5 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.sha }}
           fetch-depth: 0
-      - name: Install is_affected.
-        run: cargo install is_affected --version ^0
-      - name: Example.
-        run: ci/example.sh
+      - name: Git.
+        run: env
