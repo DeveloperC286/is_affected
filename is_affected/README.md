@@ -131,7 +131,7 @@ fi
 
 ## Downloading Binary
 Statically linked compiled binaries are available for download.
-Visit the releases page at [https:///github.com/DeveloperC286/is_affected/-/releases](https:///github.com/DeveloperC286/is_affected/-/releases) to see all the releases, the release notes contains links to binary downloads for various architectures.
+Visit the releases page at [https:///github.com/DeveloperC286/is_affected/releases](https:///github.com/DeveloperC286/is_affected/releases) to see all the releases, the release notes contains links to binary downloads for various architectures.
 
 If you do not trust the provided binaries another option is to compile your own and then make it available for remote download, so your CICD etc can then download it.
 
