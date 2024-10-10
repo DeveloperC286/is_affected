@@ -16,7 +16,7 @@ categories = ["data-structures", "development-tools", "config", "parser-implemen
 log = "0.4.20"
 
 # For reading Git commits.
-git2 = { version = "0.17.2", default-features = false, features=[] }
+git2 = { version = "0.19.0", default-features = false, features=[] }
 
 # For checking affected paths.
 regex = "1.9.6"
