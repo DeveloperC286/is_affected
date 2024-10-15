@@ -6,9 +6,11 @@ use std::process::exit;
 
 use clap::Parser;
 use git2::Repository;
-use is_affected_lib::Commits;
+
+use crate::commits::Commits;
 
 mod cli;
+mod commits;
 
 const SUCCESSFUL_EXIT_CODE: i32 = 0;
 const ERROR_EXIT_CODE: i32 = 1;
