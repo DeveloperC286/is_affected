@@ -28,4 +28,4 @@ regex = "1.9.6"
 
 [dev-dependencies]
 # For parameterized testing.
-rstest = "0.18.2"
+rstest = "0.23.0"
