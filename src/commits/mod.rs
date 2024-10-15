@@ -14,29 +14,6 @@ pub struct Commits {
 }
 
 impl Commits {
-    /// Create a new range of commits from a reference exclusively from the commit specified by the reference till inclusively of `HEAD`.
-    ///
-    /// Supports providing either the full or short name of the reference.
-    ///
-    /// E.g. short name.
-    ///
-    /// ```
-    /// use git2::Repository;
-    /// use is_affected_lib::Commits;
-    ///
-    /// let repository = Repository::open_from_env().unwrap();
-    /// let commits = Commits::from_reference(&repository, "0.4.1").unwrap();
-    /// ```
-    ///
-    /// E.g. full name.
-    ///
-    /// ```
-    /// use git2::Repository;
-    /// use is_affected_lib::Commits;
-    ///
-    /// let repository = Repository::open_from_env().unwrap();
-    /// let commits = Commits::from_reference(&repository, "refs/tags/0.4.1").unwrap();
-    /// ```
     pub fn from_reference<T: AsRef<str>>(
         repository: &Repository,
         reference: T,
@@ -45,29 +22,6 @@ impl Commits {
         get_commits_till_head_from_oid(repository, reference_oid)
     }
 
-    /// Create a new range of commits from a commit hash exclusively from the commit specified till inclusively of `HEAD`.
-    ///
-    /// Supports providing either the full commit hash or a shortened commit hash.
-    ///
-    /// E.g. shortened commit hash.
-    ///
-    /// ```
-    /// use git2::Repository;
-    /// use is_affected_lib::Commits;
-    ///
-    /// let repository = Repository::open_from_env().unwrap();
-    /// let commits = Commits::from_commit_hash(&repository, "a2f8159").unwrap();
-    /// ```
-    ///
-    /// E.g. full commit hash.
-    ///
-    /// ```
-    /// use git2::Repository;
-    /// use is_affected_lib::Commits;
-    ///
-    /// let repository = Repository::open_from_env().unwrap();
-    /// let commits = Commits::from_commit_hash(&repository, "a2f81595220779ce14dbfdb34f023677f0938974").unwrap();
-    /// ```
     pub fn from_commit_hash<T: AsRef<str>>(
         repository: &Repository,
         commit_hash: T,
@@ -76,17 +30,6 @@ impl Commits {
         get_commits_till_head_from_oid(repository, commit_oid)
     }
 
-    /// Returns true if any of the provided affects that are compiled into regexes match any of the
-    /// affected resources by the range of commits.
-    ///
-    /// ```
-    /// use git2::Repository;
-    /// use is_affected_lib::Commits;
-    ///
-    /// let repository = Repository::open_from_env().unwrap();
-    /// let commits = Commits::from_reference(&repository, "0.4.1").unwrap();
-    /// let affected = commits.is_affected(&["^src/*", "^README.md$"]);
-    /// ```
     pub fn is_affected<T: AsRef<str>>(&self, affects: &[T]) -> Result<bool, regex::Error> {
         fn to_regexes<T: AsRef<str>>(to_regexes: &[T]) -> Result<Vec<Regex>, regex::Error> {
             let mut regexes = vec![];
@@ -116,16 +59,6 @@ impl Commits {
         Ok(false)
     }
 
-    /// Returns a sorted list of all the affected resources by the range of commits.
-    ///
-    /// ```
-    /// use git2::Repository;
-    /// use is_affected_lib::Commits;
-    ///
-    /// let repository = Repository::open_from_env().unwrap();
-    /// let commits = Commits::from_reference(&repository, "0.4.1").unwrap();
-    /// let affected_resources = commits.get_affected_resources();
-    /// ```
     pub fn get_affected_resources(&self) -> Vec<String> {
         let mut affected_resources: Vec<String> = self
             .commits
