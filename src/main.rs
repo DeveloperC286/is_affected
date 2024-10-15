@@ -2,17 +2,16 @@
 extern crate log;
 extern crate pretty_env_logger;
 
-use std::process::exit;
-
+use anyhow::{bail, Context, Result};
 use clap::Parser;
 use git2::Repository;
 
+use crate::cli::Arguments;
 use crate::commits::Commits;
 
 mod cli;
 mod commits;
 
-const SUCCESSFUL_EXIT_CODE: i32 = 0;
 const ERROR_EXIT_CODE: i32 = 1;
 
 fn main() {
@@ -21,101 +20,78 @@ fn main() {
     let arguments = cli::Arguments::parse();
     trace!("The command line arguments provided are {:?}.", arguments);
 
-    match Repository::open_from_env() {
-        Ok(repository) => {
-            let commits = match (arguments.from_commit_hash, arguments.from_reference) {
-                (Some(from_commit_hash), None) => {
-                    Commits::from_commit_hash(&repository, from_commit_hash)
-                }
-                (None, Some(from_reference)) => {
-                    Commits::from_reference(&repository, from_reference)
-                }
-                (_, _) => {
-                    unreachable!("Invalid combination of arguments.");
-                }
-            };
+    if let Err(err) = run(arguments) {
+        error!("{:?}", err);
+        std::process::exit(ERROR_EXIT_CODE);
+    }
+}
 
-            match commits {
-                Ok(commits) => match (
-                    arguments.list,
-                    arguments.affects_current_directory,
-                    arguments.affects.len(),
-                ) {
-                    (true, false, 0) => {
-                        commits
-                            .get_affected_resources()
-                            .iter()
-                            .for_each(|affected_resource| println!("{}", affected_resource));
-                    }
-                    (false, true, 0) => match get_current_directory_prefix(&repository) {
-                        Ok(current_directory_prefix) => {
-                            trace!(
-                                "Checking if the current directory prefix {:?} is affected.",
-                                current_directory_prefix
-                            );
-                            let affects: Vec<String> = vec![current_directory_prefix];
-                            match commits.is_affected(&affects) {
-                                Ok(true) => exit(SUCCESSFUL_EXIT_CODE),
-                                _ => exit(ERROR_EXIT_CODE),
-                            }
-                        }
-                        Err(()) => {
-                            exit(ERROR_EXIT_CODE);
-                        }
-                    },
-                    (false, false, 0) => {
-                        error!("Unsupported configuration of output arguments.");
-                        exit(ERROR_EXIT_CODE);
-                    }
-                    (false, false, _) => match commits.is_affected(&arguments.affects) {
-                        Ok(true) => exit(SUCCESSFUL_EXIT_CODE),
-                        _ => exit(ERROR_EXIT_CODE),
-                    },
-                    (_, _, _) => {
-                        error!("Unsupported configuration of output arguments.");
-                        exit(ERROR_EXIT_CODE);
-                    }
-                },
-                Err(_) => {
-                    exit(ERROR_EXIT_CODE);
-                }
+fn run(arguments: Arguments) -> Result<()> {
+    let repository = Repository::open_from_env().context(
+        "Failed to open a Git repository from the current directory or Git environment variables.",
+    )?;
+
+    let commits = match (arguments.from_commit_hash, arguments.from_reference) {
+        (Some(from_commit_hash), None) => Commits::from_commit_hash(&repository, from_commit_hash),
+        (None, Some(from_reference)) => Commits::from_reference(&repository, from_reference),
+        (_, _) => {
+            bail!("Invalid combination of arguments.");
+        }
+    }?;
+
+    match (
+        arguments.list,
+        arguments.affects_current_directory,
+        arguments.affects.len(),
+    ) {
+        (true, false, 0) => {
+            commits
+                .get_affected_resources()
+                .iter()
+                .for_each(|affected_resource| println!("{}", affected_resource));
+            Ok(())
+        }
+        (false, true, 0) => {
+            let current_directory_prefix = get_current_directory_prefix(&repository)?;
+            trace!(
+                "Checking if the current directory prefix {:?} is affected.",
+                current_directory_prefix
+            );
+            let affects: Vec<String> = vec![current_directory_prefix];
+            match commits.is_affected(&affects) {
+                Ok(true) => Ok(()),
+                _ => bail!("Unaffected."),
             }
         }
-        Err(_) => {
-            error!("Failed to open a Git repository from the current directory or Git environment variables.");
-            exit(ERROR_EXIT_CODE);
+        (false, false, 0) => {
+            bail!("Unsupported configuration of output arguments.");
+        }
+        (false, false, _) => match commits.is_affected(&arguments.affects) {
+            Ok(true) => Ok(()),
+            _ => bail!("Unaffected."),
+        },
+        (_, _, _) => {
+            bail!("Unsupported configuration of output arguments.");
         }
     }
 }
 
-fn get_current_directory_prefix(repository: &Repository) -> Result<String, ()> {
+fn get_current_directory_prefix(repository: &Repository) -> Result<String> {
     let mut repository_path = repository.path().to_path_buf();
     // Removing the ".git/" at the end.
     repository_path.pop();
 
-    match std::env::current_dir() {
-        Ok(current_directory) => match current_directory.strip_prefix(repository_path) {
-            Ok(stripped) => match stripped.to_str() {
-                Some(stripped) => match stripped.len() {
-                    0 => {
-                        error!("The current directory prefix is empty.");
-                        Err(())
-                    }
-                    _ => Ok(format!("^{}/", stripped)),
-                },
-                None => {
-                    error!("Can not convert the current directory prefix into a string.");
-                    Err(())
-                }
-            },
-            Err(_) => {
-                error!("Can not strip the repositories path from the current directory.");
-                Err(())
-            }
-        },
-        Err(error) => {
-            error!("{:?}", error);
-            Err(())
+    let current_directory = std::env::current_dir()?;
+    let stripped = current_directory
+        .strip_prefix(repository_path)
+        .context("Can not strip the repositories path from the current directory.")?;
+    let stripped = stripped
+        .to_str()
+        .context("Can not convert the current directory prefix into a string.")?;
+    match stripped.len() {
+        0 => {
+            bail!("The current directory prefix is empty.");
         }
+        _ => Ok(format!("^{}/", stripped)),
     }
 }
