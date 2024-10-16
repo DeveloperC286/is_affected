@@ -1,6 +1,7 @@
 use std::collections::VecDeque;
 use std::str::FromStr;
 
+use anyhow::{bail, Context, Result};
 use git2::{Oid, Repository, Revwalk};
 use regex::Regex;
 
@@ -8,16 +9,12 @@ use crate::commits::commit::Commit;
 
 mod commit;
 
-/// A representation of a range of commits within a Git repository.
 pub struct Commits {
     commits: VecDeque<Commit>,
 }
 
 impl Commits {
-    pub fn from_reference<T: AsRef<str>>(
-        repository: &Repository,
-        reference: T,
-    ) -> Result<Commits, git2::Error> {
+    pub fn from_reference<T: AsRef<str>>(repository: &Repository, reference: T) -> Result<Commits> {
         let reference_oid = get_reference_oid(repository, reference.as_ref())?;
         get_commits_till_head_from_oid(repository, reference_oid)
     }
@@ -25,25 +22,18 @@ impl Commits {
     pub fn from_commit_hash<T: AsRef<str>>(
         repository: &Repository,
         commit_hash: T,
-    ) -> Result<Commits, git2::Error> {
+    ) -> Result<Commits> {
         let commit_oid = parse_to_oid(repository, commit_hash.as_ref())?;
         get_commits_till_head_from_oid(repository, commit_oid)
     }
 
-    pub fn is_affected<T: AsRef<str>>(&self, affects: &[T]) -> Result<bool, regex::Error> {
-        fn to_regexes<T: AsRef<str>>(to_regexes: &[T]) -> Result<Vec<Regex>, regex::Error> {
+    pub fn is_affected<T: AsRef<str>>(&self, affects: &[T]) -> Result<bool> {
+        fn to_regexes<T: AsRef<str>>(to_regexes: &[T]) -> Result<Vec<Regex>> {
             let mut regexes = vec![];
 
             for to_regex in to_regexes {
-                match Regex::from_str(to_regex.as_ref()) {
-                    Ok(regex) => {
-                        regexes.push(regex);
-                    }
-                    Err(error) => {
-                        error!("{:?}", error);
-                        return Err(error);
-                    }
-                }
+                let regex = Regex::from_str(to_regex.as_ref())?;
+                regexes.push(regex);
             }
 
             Ok(regexes)
@@ -76,25 +66,17 @@ impl Commits {
 fn get_commits_till_head_from_oid(
     repository: &Repository,
     from_commit_hash: Oid,
-) -> Result<Commits, git2::Error> {
-    fn get_revwalker(
-        repository: &Repository,
-        from_commit_hash: Oid,
-    ) -> Result<Revwalk, git2::Error> {
+) -> Result<Commits> {
+    fn get_revwalker(repository: &Repository, from_commit_hash: Oid) -> Result<Revwalk> {
         let mut commits = repository.revwalk()?;
         commits.simplify_first_parent()?;
         commits.push_head()?;
 
-        match commits.hide(from_commit_hash) {
-            Ok(_) => Ok(commits),
-            Err(error) => {
-                error!(
-                    "Can not find a commit with the hash '{}'.",
-                    from_commit_hash
-                );
-                Err(error)
-            }
-        }
+        commits.hide(from_commit_hash).context(format!(
+            "Can not find a commit with the hash '{}'.",
+            from_commit_hash
+        ))?;
+        Ok(commits)
     }
 
     let revwalker = get_revwalker(repository, from_commit_hash)?;
@@ -103,37 +85,31 @@ fn get_commits_till_head_from_oid(
     for commit in revwalker {
         let oid = commit?;
 
-        match Commit::from_git(repository, oid) {
-            Ok(commit) => commits.push_front(commit),
-            Err(error) => {
-                error!("Can not find a commit with the hash '{}'.", oid);
-                return Err(error);
-            }
-        }
+        let commit = Commit::from_git(repository, oid)
+            .context(format!("Can not find a commit with the hash '{}'.", oid))?;
+        commits.push_front(commit);
     }
 
     Ok(Commits { commits })
 }
 
-fn get_reference_oid(repository: &Repository, matching: &str) -> Result<Oid, git2::Error> {
-    match repository.resolve_reference_from_short_name(matching) {
-        Ok(reference) => {
-            trace!(
-                "Matched {:?} to the reference {:?}.",
-                matching,
-                reference.name().unwrap()
-            );
-            let commit = reference.peel_to_commit()?;
-            Ok(commit.id())
-        }
-        Err(error) => {
-            error!("Could not find a reference with the name {:?}.", matching);
-            Err(error)
-        }
-    }
+fn get_reference_oid(repository: &Repository, matching: &str) -> Result<Oid> {
+    let reference = repository
+        .resolve_reference_from_short_name(matching)
+        .context(format!(
+            "Could not find a reference with the name {:?}.",
+            matching
+        ))?;
+    trace!(
+        "Matched {:?} to the reference {:?}.",
+        matching,
+        reference.name().unwrap()
+    );
+    let commit = reference.peel_to_commit()?;
+    Ok(commit.id())
 }
 
-fn parse_to_oid(repository: &Repository, oid: &str) -> Result<Oid, git2::Error> {
+fn parse_to_oid(repository: &Repository, oid: &str) -> Result<Oid> {
     match oid.len() {
         1..=39 => {
             trace!(
@@ -158,7 +134,6 @@ fn parse_to_oid(repository: &Repository, oid: &str) -> Result<Oid, git2::Error> 
                     }
                     Err(error) => {
                         error!("{:?}", error);
-
                         None
                     }
                 })
@@ -166,27 +141,17 @@ fn parse_to_oid(repository: &Repository, oid: &str) -> Result<Oid, git2::Error> 
 
             match matched_commit_hashes.len() {
                 0 => {
-                    let error_message = format!(
+                    bail!(
                         "No commit hashes start with the provided short commit hash {:?}.",
                         matching_oid_lowercase
                     );
-                    error!("{}", error_message);
-                    Err(git2::Error::from_str(&error_message))
                 }
                 1 => Ok(*matched_commit_hashes.first().unwrap()),
                 _ => {
-                    let error_message = format!("Ambiguous short commit hash, the commit hashes {:?} all start with the provided short commit hash {:?}.", matched_commit_hashes, matching_oid_lowercase);
-                    error!("{}", error_message);
-                    Err(git2::Error::from_str(&error_message))
+                    bail!("Ambiguous short commit hash, the commit hashes {:?} all start with the provided short commit hash {:?}.", matched_commit_hashes, matching_oid_lowercase);
                 }
             }
         }
-        _ => match git2::Oid::from_str(oid) {
-            Ok(oid) => Ok(oid),
-            Err(error) => {
-                error!("{:?} is not a valid commit hash.", oid);
-                Err(error)
-            }
-        },
+        _ => git2::Oid::from_str(oid).context(format!("{:?} is not a valid commit hash.", oid)),
     }
 }
