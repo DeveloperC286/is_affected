@@ -58,7 +58,7 @@ impl Commit {
                         }
                         Err(_) => {
                             // Root Commit
-                            match commit_tree.walk(TreeWalkMode::PostOrder, |directory, entry| {
+                            commit_tree.walk(TreeWalkMode::PostOrder, |directory, entry| {
                                 match entry.name() {
                                     Some(name) => {
                                         let file = format!("{}{}", directory, name);
@@ -72,13 +72,7 @@ impl Commit {
                                     }
                                 }
                                 TreeWalkResult::Ok
-                            }) {
-                                Ok(_) => {}
-                                Err(error) => {
-                                    error!("{:?}", error);
-                                    return Err(error);
-                                }
-                            }
+                            })?
                         }
                     }
                 }
