@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.5.1 (2024-12-10)
+
+## What's Changed
+* fix(deps): update rust crate regex to v1.11.1 by @renovate in https://github.com/DeveloperC286/is_affected/pull/60
+* fix(deps): update rust crate anyhow to v1.0.93 - autoclosed by @renovate in https://github.com/DeveloperC286/is_affected/pull/59
+* ci: Alpine migration for pinning/updating all dependencies by @DeveloperC286 in https://github.com/DeveloperC286/is_affected/pull/62
+* ci: adding Renovate GitHub Workflow Earthly updating by @DeveloperC286 in https://github.com/DeveloperC286/is_affected/pull/68
+* chore(deps): update dependency alpine_3_20/python3 to v3.12.8-r1 by @renovate in https://github.com/DeveloperC286/is_affected/pull/73
+* chore(deps): update earthly/earthly docker tag to v0.8.15 by @renovate in https://github.com/DeveloperC286/is_affected/pull/69
+* ci: replacing missed Earthly download with action by @DeveloperC286 in https://github.com/DeveloperC286/is_affected/pull/74
+
+
+**Full Changelog**: https://github.com/DeveloperC286/is_affected/compare/v0.5.0...v0.5.1
+
 ## 0.5.0 (2024-10-19)
 
 ## What's Changed
