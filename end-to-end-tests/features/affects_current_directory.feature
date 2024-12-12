@@ -14,7 +14,7 @@ Feature: Check if the current directory contains any of the affected resources w
 
 
     Examples:
-      | repository                                    | checkout_commit                          | from_commit_hash                         | affects      | directory   |
+      | repository                                    | checkout_commit                          | from_commit_hash                         | affects    | directory |
       | https://gitlab.com/thelamer/radarr-mirror.git | 746d788889ed4d0bbaae980afb6c86ec6651dea1 | 3d3be90eb1f3277c6fd53e3dee434052f08bd0dc | ^root/etc/ | root/etc/ |
 
 
