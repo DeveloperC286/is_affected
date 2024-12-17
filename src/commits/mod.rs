@@ -14,17 +14,11 @@ pub struct Commits {
 }
 
 impl Commits {
-    pub fn from_reference<T: AsRef<str>>(repository: &Repository, reference: T) -> Result<Commits> {
-        let reference_oid = get_reference_oid(repository, reference.as_ref())?;
-        get_commits_till_head_from_oid(repository, reference_oid)
-    }
-
-    pub fn from_commit_hash<T: AsRef<str>>(
-        repository: &Repository,
-        commit_hash: T,
-    ) -> Result<Commits> {
-        let commit_oid = parse_to_oid(repository, commit_hash.as_ref())?;
-        get_commits_till_head_from_oid(repository, commit_oid)
+    pub fn from_git<T: AsRef<str>>(repository: &Repository, git: T) -> Result<Commits> {
+        let oid = parse_to_oid(repository, git.as_ref()).or_else(|error| {
+            get_reference_oid(repository, git.as_ref()).map_err(|e| error.context(e))
+        })?;
+        get_commits_till_head_from_oid(repository, oid)
     }
 
     pub fn is_affected<T: AsRef<str>>(&self, affects: &[T]) -> Result<bool> {
@@ -132,10 +126,7 @@ fn parse_to_oid(repository: &Repository, oid: &str) -> Result<Oid> {
 
                         None
                     }
-                    Err(error) => {
-                        error!("{:?}", error);
-                        None
-                    }
+                    Err(_) => None,
                 })
                 .collect();
 
