@@ -27,17 +27,8 @@ fn main() {
 }
 
 fn run(arguments: Arguments) -> Result<()> {
-    let repository = Repository::open_from_env().context(
-        "Failed to open a Git repository from the current directory or Git environment variables.",
-    )?;
-
-    let commits = match (arguments.from_commit_hash, arguments.from_reference) {
-        (Some(from_commit_hash), None) => Commits::from_commit_hash(&repository, from_commit_hash),
-        (None, Some(from_reference)) => Commits::from_reference(&repository, from_reference),
-        (_, _) => {
-            bail!("Invalid combination of arguments.");
-        }
-    }?;
+    let repository = Repository::open_from_env().context("Unable to open the Git repository.")?;
+    let commits = Commits::from_git(&repository, arguments.from)?;
 
     match (
         arguments.list,
