@@ -1,5 +1,27 @@
 # Changelog
 
+## 1.0.0 (2024-12-18)
+
+## What's Changed
+* fix(deps): update rust crate regex to v1.11.1 by @renovate in https://github.com/DeveloperC286/is_affected/pull/60
+* fix(deps): update rust crate anyhow to v1.0.93 - autoclosed by @renovate in https://github.com/DeveloperC286/is_affected/pull/59
+* ci: Alpine migration for pinning/updating all dependencies by @DeveloperC286 in https://github.com/DeveloperC286/is_affected/pull/62
+* ci: adding Renovate GitHub Workflow Earthly updating by @DeveloperC286 in https://github.com/DeveloperC286/is_affected/pull/68
+* chore(deps): update dependency alpine_3_20/python3 to v3.12.8-r1 by @renovate in https://github.com/DeveloperC286/is_affected/pull/73
+* chore(deps): update earthly/earthly docker tag to v0.8.15 by @renovate in https://github.com/DeveloperC286/is_affected/pull/69
+* ci: replacing missed Earthly download with action by @DeveloperC286 in https://github.com/DeveloperC286/is_affected/pull/74
+* build: converting to Rust's Alpine image by @DeveloperC286 in https://github.com/DeveloperC286/is_affected/pull/76
+* chore(deps): update dependency developerc286/conventional_commits_linter to v0.14.3 by @renovate in https://github.com/DeveloperC286/is_affected/pull/70
+* build: improved continuous delivery target naming by @DeveloperC286 in https://github.com/DeveloperC286/is_affected/pull/78
+* refactor: formatting end to end test features by @DeveloperC286 in https://github.com/DeveloperC286/is_affected/pull/79
+* feat!: from changed to singular positional argument by @DeveloperC286 in https://github.com/DeveloperC286/is_affected/pull/80
+* build: adding cargo --locked and removing --workspace by @DeveloperC286 in https://github.com/DeveloperC286/is_affected/pull/81
+* ci: removing Alpine Renovate version updating by @DeveloperC286 in https://github.com/DeveloperC286/is_affected/pull/82
+* ci: converting to publishing .tar.gz by @DeveloperC286 in https://github.com/DeveloperC286/is_affected/pull/83
+
+
+**Full Changelog**: https://github.com/DeveloperC286/is_affected/compare/v0.5.0...v1.0.0
+
 ## 0.5.0 (2024-10-19)
 
 ## What's Changed
