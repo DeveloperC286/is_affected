@@ -54,4 +54,4 @@ Feature: Git environment variables are respected and used instead of using the c
 
     Examples:
       | repository                               | checkout_commit                          | reference | affects        |
-      | https://gitlab.com/wwn-mode/WWN-Mode.git | 3839e0b2a02687a23aae4fa49d5ec0eea1762f17 | 0.0.2Update    | Units/BUM0.ini |
+      | https://github.com/aws-solutions/quota-monitor-for-aws | f0b61d26e1667f0d85bd6bf5344ac8ca7648c29e | v6.2.11 | .github/PULL_REQUEST_TEMPLATE.md |

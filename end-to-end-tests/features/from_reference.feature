@@ -22,7 +22,7 @@ Feature: A Git reference can be provided as an argument to indicate where to sta
 
     Examples:
       | repository                               | checkout_commit                          | reference | affects        |
-      | https://gitlab.com/wwn-mode/WWN-Mode.git | 3839e0b2a02687a23aae4fa49d5ec0eea1762f17 | 0.0.2Update    | Units/BUM0.ini |
+      | https://github.com/aws-solutions/quota-monitor-for-aws | f0b61d26e1667f0d85bd6bf5344ac8ca7648c29e | v6.2.11 | .github/PULL_REQUEST_TEMPLATE.md |
 
 
   Scenario Outline: You can also provide the long name and partial names not just the short name.
