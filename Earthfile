@@ -17,7 +17,7 @@ rust-base:
     # renovate: datasource=repology depName=alpine_3_20/bash versioning=loose
     ENV BASH_VERSION="5.2.26-r0"
     # renovate: datasource=repology depName=alpine_3_20/musl-dev versioning=loose
-    ENV MUSL_VERSION="1.2.5-r0"
+    ENV MUSL_VERSION="1.2.5-r1"
     RUN apk add --no-cache bash=$BASH_VERSION musl-dev=$MUSL_VERSION
     RUN rustup component add rustfmt clippy
     WORKDIR "/is_affected"
@@ -63,7 +63,7 @@ check-rust-formatting:
 python-base:
     FROM +rust-base
     # renovate: datasource=repology depName=alpine_3_20/python3 versioning=loose
-    ENV PYTHON_VERSION="3.12.8-r1"
+    ENV PYTHON_VERSION="3.12.9-r0"
     # renovate: datasource=repology depName=alpine_3_20/git versioning=loose
     ENV GIT_VERSION="2.45.3-r0"
     # renovate: datasource=repology depName=alpine_3_20/py3-pip versioning=loose
