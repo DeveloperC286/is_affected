@@ -78,7 +78,7 @@ check-python-formatting:
 
 
 golang-base:
-    FROM golang:1.24.4@sha256:8806e871f0a81b8a5e3165fb743bc1b80d92f6f8a0f0ff317b015c4adeffc0e2
+    FROM golang:1.24.4@sha256:884849e632f7b90be1acd3293579dbf19595c582a202b98411c88fdb60a319f0
     WORKDIR "/is_affected"
 
 
