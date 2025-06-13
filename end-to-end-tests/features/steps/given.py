@@ -15,7 +15,7 @@ def reset_arguments(context):
 def reset_context(context):
     context.behave_directory = os.getcwd()
 
-    context.is_affected_path = f"{context.behave_directory}/../target/debug/is_affected"
+    context.is_affected_path = f"{context.behave_directory}/../target/x86_64-unknown-linux-musl/debug/is_affected"
     reset_arguments(context)
 
     if "GIT_DIR" in os.environ:
