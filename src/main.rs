@@ -18,10 +18,10 @@ fn main() {
     pretty_env_logger::init();
     trace!("Version {}.", env!("CARGO_PKG_VERSION"));
     let arguments = cli::Arguments::parse();
-    trace!("The command line arguments provided are {:?}.", arguments);
+    trace!("The command line arguments provided are {arguments:?}.");
 
     if let Err(err) = run(arguments) {
-        error!("{:?}", err);
+        error!("{err:?}");
         std::process::exit(ERROR_EXIT_CODE);
     }
 }
@@ -39,14 +39,13 @@ fn run(arguments: Arguments) -> Result<()> {
             commits
                 .get_affected_resources()
                 .iter()
-                .for_each(|affected_resource| println!("{}", affected_resource));
+                .for_each(|affected_resource| println!("{affected_resource}"));
             Ok(())
         }
         (false, true, 0) => {
             let current_directory_prefix = get_current_directory_prefix(&repository)?;
             trace!(
-                "Checking if the current directory prefix {:?} is affected.",
-                current_directory_prefix
+                "Checking if the current directory prefix {current_directory_prefix:?} is affected."
             );
             let affects: Vec<String> = vec![current_directory_prefix];
             match commits.is_affected(&affects) {
@@ -83,6 +82,6 @@ fn get_current_directory_prefix(repository: &Repository) -> Result<String> {
         0 => {
             bail!("The current directory prefix is empty.");
         }
-        _ => Ok(format!("^{}/", stripped)),
+        _ => Ok(format!("^{stripped}/")),
     }
 }

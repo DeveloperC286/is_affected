@@ -45,13 +45,13 @@ impl Commit {
                                             }
                                         }
                                         Err(error) => {
-                                            error!("{:?}", error);
+                                            error!("{error:?}");
                                             return Err(error);
                                         }
                                     }
                                 }
                                 Err(error) => {
-                                    error!("{:?}", error);
+                                    error!("{error:?}");
                                     return Err(error);
                                 }
                             }
@@ -61,7 +61,7 @@ impl Commit {
                             commit_tree.walk(TreeWalkMode::PostOrder, |directory, entry| {
                                 match entry.name() {
                                     Some(name) => {
-                                        let file = format!("{}{}", directory, name);
+                                        let file = format!("{directory}{name}");
                                         files.insert(file);
                                     }
                                     None => {
@@ -78,7 +78,7 @@ impl Commit {
                 }
 
                 Err(error) => {
-                    error!("{:?}", error);
+                    error!("{error:?}");
                     return Err(error);
                 }
             }
@@ -91,12 +91,12 @@ impl Commit {
                 let affects = get_all_files_changed_in_commit(repository, &commit)?;
                 let oid = commit.id();
 
-                debug!("Commit {:?} affects the files {:?}.", oid, affects);
+                debug!("Commit {oid:?} affects the files {affects:?}.");
 
                 Ok(Commit { oid, affects })
             }
             Err(error) => {
-                error!("Can not find commit with the hash '{}'.", oid);
+                error!("Can not find commit with the hash '{oid}'.");
                 Err(error)
             }
         }
