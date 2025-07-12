@@ -29,6 +29,12 @@ pub(crate) struct Arguments {
     pub(crate) list: bool,
 
     #[arg(
+        long,
+        help = "Enable verbose output, respects RUST_LOG environment variable if set."
+    )]
+    pub(crate) verbose: bool,
+
+    #[arg(
         help = "The Git reference from where to start taking the range of commits from till HEAD to lint. The range is inclusive of HEAD and exclusive of the provided reference."
     )]
     pub(crate) from: String,

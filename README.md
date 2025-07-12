@@ -9,7 +9,6 @@ A utility for checking and listing the affected resources across a range of comm
 ## Content
  * [Usage](#usage)
    + [Usage - Git Environment Variables](#usage-git-environment-variables)
-   + [Usage - Logging](#usage-logging)
  * [CICD Examples](#cicd-examples)
    + [GitHub Actions](#github-actions)
    + [GitLab CI](#gitlab-ci)
@@ -40,12 +39,6 @@ One of the output arguments are required, but they conflict and can not be used 
 When looking for a repository the Git environment variables are respected.
 When `${GIT_DIR}` is set, it takes precedence and Is affected begins searching for a repository in the directory specified in `${GIT_DIR}`.
 When `${GIT_DIR}` is not set, Is Affected searches for a repository beginning in the current directory.
-
-
-### Usage - Logging
-The crates `pretty_env_logger` and `log` are used to provide logging.
-The environment variable `RUST_LOG` can be used to set the logging level.
-See [https://crates.io/crates/pretty_env_logger](https://crates.io/crates/pretty_env_logger) for more detailed documentation.
 
 
 ## CICD Examples
