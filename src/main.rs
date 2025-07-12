@@ -15,10 +15,16 @@ mod commits;
 const ERROR_EXIT_CODE: i32 = 1;
 
 fn main() {
-    pretty_env_logger::init();
-    trace!("Version {}.", env!("CARGO_PKG_VERSION"));
+    info!("Version {}.", env!("CARGO_PKG_VERSION"));
     let arguments = cli::Arguments::parse();
-    trace!("The command line arguments provided are {arguments:?}.");
+    debug!("The command line arguments provided are {arguments:?}.");
+
+    // Set up logging: if verbose is true and RUST_LOG is not set, default to info level
+    if arguments.verbose && std::env::var("RUST_LOG").is_err() {
+        std::env::set_var("RUST_LOG", "info");
+    }
+
+    pretty_env_logger::init();
 
     if let Err(err) = run(arguments) {
         error!("{err:?}");
@@ -44,7 +50,7 @@ fn run(arguments: Arguments) -> Result<()> {
         }
         (false, true, 0) => {
             let current_directory_prefix = get_current_directory_prefix(&repository)?;
-            trace!(
+            debug!(
                 "Checking if the current directory prefix {current_directory_prefix:?} is affected."
             );
             let affects: Vec<String> = vec![current_directory_prefix];
