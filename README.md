@@ -2,23 +2,16 @@
 [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
 [![License](https://img.shields.io/badge/License-AGPLv3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
 
-
 A utility for checking and listing the affected resources across a range of commits, useful when working with monorepos.
 
-
-## Content
- * [Usage](#usage)
-   + [Usage - Git Environment Variables](#usage-git-environment-variables)
- * [CICD Examples](#cicd-examples)
-   + [GitHub Actions](#github-actions)
-   + [GitLab CI](#gitlab-ci)
- * [Downloading Binary](#downloading-binary)
- * [Compiling via Local Repository](#compiling-via-local-repository)
- * [Compiling via Cargo](#compiling-via-cargo)
- * [Unit Testing](#unit-testing)
- * [End-to-End Testing](#end-to-end-testing)
- * [Issues/Feature Requests](#issuesfeature-requests)
-
+- [Usage](#usage)
+- [Examples](#examples)
+  - [GitHub Actions](#github-actions)
+  - [GitLab CI](#gitlab-ci)
+- [Installation](#installation)
+  - [Binary](#binary)
+  - [Cargo](#cargo)
+  - [Docker](#docker)
 
 ## Usage
 Is Affected operates upon a range of Git commits in the repositories' history.
@@ -35,13 +28,7 @@ If either of the affects checks are met then Is Affected return a zero status co
 One of the output arguments are required, but they conflict and can not be used together.
 
 
-### Usage - Git Environment Variables
-When looking for a repository the Git environment variables are respected.
-When `${GIT_DIR}` is set, it takes precedence and Is affected begins searching for a repository in the directory specified in `${GIT_DIR}`.
-When `${GIT_DIR}` is not set, Is Affected searches for a repository beginning in the current directory.
-
-
-## CICD Examples
+## Examples
 All CI examples set up the environment and then execute a script to perform the action.
 This approach is recommended as it allows us to avoid provider-specific quirks and constraints, while also enabling us to execute the same logic locally.
 It also enables the use of tools such as formatter and linters, ensuring consistency and reducing errors compared to embedding commands directly into the CI provider's custom syntax.
@@ -121,27 +108,21 @@ fi
 ```
 
 
-## Downloading Binary
+## Installation
+
+### Binary
+<!-- x-release-please-start-version -->
+```sh
+version="v1.0.4" && wget -O - "https://github.com/DeveloperC286/is_affected/releases/download/${version}/x86_64-unknown-linux-musl.tar.gz" | tar xz --directory "/usr/bin/"
+```
+<!-- x-release-please-end -->
+
 Statically linked compiled binaries are available for download.
-Visit the releases page at [https:///github.com/DeveloperC286/is_affected/releases](https:///github.com/DeveloperC286/is_affected/releases) to see all the releases, the release notes contains links to binary downloads for various architectures.
+Visit the releases page at [https://github.com/DeveloperC286/is_affected/releases](https://github.com/DeveloperC286/is_affected/releases) to see all the releases, the release notes contains links to binary downloads for various architectures.
 
 If you do not trust the provided binaries another option is to compile your own and then make it available for remote download, so your CICD etc can then download it.
 
-
-## Compiling via Local Repository
-Checkout the code repository locally, change into the repository's directory and then build via Cargo.
-Using the `--release` flag produces an optimised binary but takes longer to compile.
-
-```sh
-git clone git@github.com:DeveloperC286/is_affected.git
-cd is_affected/
-cargo build --release
-```
-
-The compiled binary is present at `target/release/is_affected`.
-
-
-## Compiling via Cargo
+### Cargo
 Cargo is the Rust package manager, the `install` sub-command pulls from [crates.io](https://crates.io/crates/is_affected) and then compiles the binary locally, placing the compiled binary at `${HOME}/.cargo/bin/is_affected`.
 
 ```sh
@@ -154,48 +135,27 @@ For certain environments such as CICD etc you may want to pin the version.
 
 e.g.
 
+<!-- x-release-please-start-version -->
 ```sh
 cargo install is_affected --version 0.4.2
 ```
+<!-- x-release-please-end -->
 
 Rather than pinning to a specific version you can specify the major or minor version.
 
 e.g.
 
+<!-- x-release-please-start-version -->
 ```sh
 cargo install is_affected --version ^0
 ```
+<!-- x-release-please-end -->
 
 Will download the latest `0.*` release whether that is `0.4.2` or `0.7.0`.
 
-
-## Unit Testing
-The unit test suite has several parameterised tests, Cargo is used to set up and run all the unit tests.
-
-```sh
-cargo test
-```
-
-## End-to-End Testing
-To ensure correctness as there are a variety of out of process dependencies the project has an End-to-End behaviour driven test suite using the behave framework (https://github.com/behave/behave).
-
-To run the test suite you need to
- - Compile the Is Affected binary.
- - Install Python3.
- - Install Behave.
- - Execute Behave.
-
-__Note - You can't use --release as the test suite uses `target/debug/is_affected`.__
-
-```sh
-cargo build
-cd is_affected/end-to-end-tests/
-virtualenv -p python3 .venv
-source .venv/bin/activate
-pip3 install -r requirements.txt
-behave
-```
+### Docker
+You can use the Docker image published to [ghcr.io/developerc286/is_affected](https://github.com/DeveloperC286/is_affected/pkgs/container/is_affected).
 
 
 ## Issues/Feature Requests
-To report an issue or request a new feature use [https://github.com/DeveloperC286/is_affected/issues](https://github.com/DeveloperC286/is_affected/issues).
+Report issues or request features on our [GitHub Issues](https://github.com/DeveloperC286/is_affected/issues).
