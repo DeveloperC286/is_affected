@@ -113,7 +113,7 @@ fi
 ### Binary
 <!-- x-release-please-start-version -->
 ```sh
-version="v1.0.4" && wget -O - "https://github.com/DeveloperC286/is_affected/releases/download/${version}/x86_64-unknown-linux-musl.tar.gz" | tar xz --directory "/usr/bin/"
+version="v0.6.0" && wget -O - "https://github.com/DeveloperC286/is_affected/releases/download/${version}/x86_64-unknown-linux-musl.tar.gz" | tar xz --directory "/usr/bin/"
 ```
 <!-- x-release-please-end -->
 
@@ -137,7 +137,7 @@ e.g.
 
 <!-- x-release-please-start-version -->
 ```sh
-cargo install is_affected --version 0.4.2
+cargo install is_affected --version 0.6.0
 ```
 <!-- x-release-please-end -->
 
