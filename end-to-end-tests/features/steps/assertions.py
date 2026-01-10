@@ -31,7 +31,7 @@ def assert_error_contains(result, error):
 
 
 def assert_error_matches_regex(result, regex):
-    assert regex.match(result.stderr) is not None, f"Expected standard error to match the regex.\n" + \
+    assert regex.match(result.stderr) is not None, "Expected standard error to match the regex.\n" + \
         f"Standard error = {result.stderr.encode()}.\n" + \
         f"Regex          = {regex.pattern.encode()}.\n"
 
@@ -44,6 +44,6 @@ def assert_error_is_one_of(result, errors):
 
 def assert_affected_resources(result, affected_resources):
     affected_resources = affected_resources.strip().strip('\"').replace("\\n", '\n')
-    assert result.stdout == affected_resources, f"The affected resources was not what was expected.\n" + \
+    assert result.stdout == affected_resources, "The affected resources was not what was expected.\n" + \
         f"Expected =\n {affected_resources}.\n" + \
         f"Actual   = \n {result.stdout}\n"

@@ -1,5 +1,3 @@
-import os
-
 from behave import when
 
 
@@ -14,10 +12,10 @@ def set_affects(context, affects):
 
 
 @when('the --list flag is set.')
-def set_affects(context):
+def set_list_flag(context):
     context.arguments += " --list "
 
 
 @when('the --affects-current-directory flag is set.')
-def set_affects(context):
+def set_affects_current_directory_flag(context):
     context.arguments += " --affects-current-directory "

@@ -2,7 +2,17 @@ import re
 from behave import then
 
 from utilities import execute_is_affected
-from assertions import *
+from assertions import (
+    assert_affected_resources,
+    assert_command_successful,
+    assert_command_unsuccessful,
+    assert_error_contains,
+    assert_error_equals,
+    assert_error_is_one_of,
+    assert_error_matches_regex,
+    assert_no_errors,
+    assert_no_output,
+)
 
 
 @then('is affected.')
