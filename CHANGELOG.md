@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.6.1 (2026-01-16)
+
+## What's Changed
+* chore(deps): update nix flake lock by @renovate[bot] in https://github.com/DeveloperC286/is_affected/pull/354
+* chore(deps): update dependency https://github.com/developerc286/template to v1.6.3 by @renovate[bot] in https://github.com/DeveloperC286/is_affected/pull/353
+* chore(deps): update dependency https://github.com/developerc286/template to v1.6.4 by @renovate[bot] in https://github.com/DeveloperC286/is_affected/pull/356
+* chore(deps): update nix flake lock by @renovate[bot] in https://github.com/DeveloperC286/is_affected/pull/357
+* chore(deps): update dependency https://github.com/developerc286/template to v1.7.2 by @renovate[bot] in https://github.com/DeveloperC286/is_affected/pull/358
+
+
+**Full Changelog**: https://github.com/DeveloperC286/is_affected/compare/v0.6.0...v0.6.1
+
 ## 0.6.0 (2026-01-04)
 
 ## What's Changed
