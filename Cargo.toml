@@ -1,6 +1,6 @@
 [package]
 name = "is_affected"
-version = "0.6.0"
+version = "0.6.1"
 description = "A utility for checking and listing the affected resources across a range of commits, useful when working with monorepos."
 authors = ["C <DeveloperC@protonmail.com>"]
 edition = "2021"
