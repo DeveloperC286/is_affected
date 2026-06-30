@@ -60,11 +60,11 @@ impl Commit {
                             // Root Commit
                             commit_tree.walk(TreeWalkMode::PostOrder, |directory, entry| {
                                 match entry.name() {
-                                    Some(name) => {
+                                    Ok(name) => {
                                         let file = format!("{directory}{name}");
                                         files.insert(file);
                                     }
-                                    None => {
+                                    Err(_) => {
                                         warn!(
                                             "The root commit with the hash '{}' has non valid UTF-8 files.",
                                             commit.id()

@@ -15,13 +15,13 @@ fn test_get_affected_resources_is_sorted() {
     let commits = Commits {
         commits: VecDeque::from(vec![
             Commit {
-                oid: git2::Oid::zero(),
+                oid: git2::Oid::ZERO_SHA1,
                 affects: IntoIterator::into_iter(["README.md"])
                     .map(|resource| resource.to_string())
                     .collect(),
             },
             Commit {
-                oid: git2::Oid::zero(),
+                oid: git2::Oid::ZERO_SHA1,
                 affects: IntoIterator::into_iter(["LICENSE", "src/main.rs"])
                     .map(|resource| resource.to_string())
                     .collect(),
@@ -46,25 +46,25 @@ fn test_get_affected_resources_is_unique() {
     let commits = Commits {
         commits: VecDeque::from(vec![
             Commit {
-                oid: git2::Oid::zero(),
+                oid: git2::Oid::ZERO_SHA1,
                 affects: IntoIterator::into_iter(["README.md"])
                     .map(|resource| resource.to_string())
                     .collect(),
             },
             Commit {
-                oid: git2::Oid::zero(),
+                oid: git2::Oid::ZERO_SHA1,
                 affects: IntoIterator::into_iter(["LICENSE", "src/main.rs"])
                     .map(|resource| resource.to_string())
                     .collect(),
             },
             Commit {
-                oid: git2::Oid::zero(),
+                oid: git2::Oid::ZERO_SHA1,
                 affects: IntoIterator::into_iter(["README.md"])
                     .map(|resource| resource.to_string())
                     .collect(),
             },
             Commit {
-                oid: git2::Oid::zero(),
+                oid: git2::Oid::ZERO_SHA1,
                 affects: IntoIterator::into_iter(["src/main.rs"])
                     .map(|resource| resource.to_string())
                     .collect(),
@@ -114,7 +114,7 @@ fn test_is_affected(#[case] affects: Vec<&str>, #[case] affected_resources: Vec<
         commits: affected_resources
             .into_iter()
             .map(|resource| Commit {
-                oid: git2::Oid::zero(),
+                oid: git2::Oid::ZERO_SHA1,
                 affects: IntoIterator::into_iter([resource])
                     .map(|resource| resource.to_string())
                     .collect(),
@@ -153,7 +153,7 @@ fn test_is_not_affected(#[case] affects: Vec<&str>, #[case] affected_resources: 
         commits: affected_resources
             .into_iter()
             .map(|resource| Commit {
-                oid: git2::Oid::zero(),
+                oid: git2::Oid::ZERO_SHA1,
                 affects: IntoIterator::into_iter([resource])
                     .map(|resource| resource.to_string())
                     .collect(),
