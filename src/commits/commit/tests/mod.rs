@@ -2,8 +2,8 @@ use std::collections::VecDeque;
 
 use rstest::rstest;
 
-use crate::commits::commit::Commit;
 use crate::Commits;
+use crate::commits::commit::Commit;
 
 #[test]
 fn test_get_affected_resources_is_sorted() {
