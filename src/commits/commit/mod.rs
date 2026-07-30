@@ -1,6 +1,7 @@
 use std::collections::HashSet;
 
 use git2::{Oid, Repository, TreeWalkMode, TreeWalkResult};
+use log::{debug, error, info, trace, warn};
 use regex::Regex;
 
 pub(super) struct Commit {

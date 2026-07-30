@@ -3,6 +3,7 @@ use std::str::FromStr;
 
 use anyhow::{bail, Context, Result};
 use git2::{Oid, Repository, Revwalk};
+use log::{debug, info};
 use regex::Regex;
 
 use crate::commits::commit::Commit;
