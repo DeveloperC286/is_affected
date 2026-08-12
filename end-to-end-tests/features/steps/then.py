@@ -1,7 +1,5 @@
 import re
-from behave import then
 
-from utilities import execute_is_affected
 from assertions import (
     assert_affected_resources,
     assert_command_successful,
@@ -13,6 +11,8 @@ from assertions import (
     assert_no_errors,
     assert_no_output,
 )
+from behave import then
+from utilities import execute_is_affected
 
 
 @then('is affected.')
